@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scan & Pay</title>
+  <link rel="stylesheet" href="../css/app2.css">
+  <style>
+    body { background: linear-gradient(135deg, #f9d423 0%, #ff4e50 100%); min-height:100vh; }
+    .container { display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:90vh; }
+    .btn { margin-top: 24px; padding: 12px 24px; font-size: 18px; border-radius: 24px; background: #3399cc; color: #fff; border: none; cursor: pointer; }
+    @keyframes glow {
+      0% { box-shadow: 0 0 16px #f9d423; }
+      100% { box-shadow: 0 0 32px #ff4e50; }
+    }
+    .btn:hover { background:#2e9ad0 !important; color:#fff !important; }
+    @media (max-width:600px) {
+      .container > div { max-width:98vw !important; padding:16px !important; }
+    }
+    .scanpay-card { animation: fadeIn 1s; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(40px);} to { opacity:1; transform:translateY(0);} }
+    #scanner-placeholder { animation: glowScanner 2s infinite alternate; }
+    @keyframes glowScanner { 0% { box-shadow:0 0 24px #ff4e50,0 0 8px #f9d423; } 100% { box-shadow:0 0 48px #2e9ad0,0 0 16px #ffe066; } }
+  </style>
+</head>
+<body>
+  <div class="container" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:90vh;">
+    <h2 style="font-weight:bold;text-transform:uppercase;font-size:2.6rem;letter-spacing:2px;color:#fff;text-shadow:2px 2px 12px #ff4e50, 0 2px 8px #f9d423;margin-bottom:24px;">Scan & Pay to Proceed</h2>
+    <div class="scanpay-card" style="background:rgba(255,255,255,0.92);box-shadow:0 8px 32px #ff4e50;border-radius:32px;padding:40px 28px;display:flex;flex-direction:column;align-items:center;max-width:480px;width:100%;margin-bottom:32px;">
+      <h3 style="font-weight:bold;font-size:2rem;color:#ff4e50;text-align:center;margin-bottom:24px;text-shadow:1px 1px 8px #ffe066;">Welcome to Educate And Learn Yourself</h3>
+      <div id="upiQrContainer" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
+        <!-- Removed QR code and UPI intent button for strict Razorpay enforcement -->
+        <div style="margin-top:18px;text-align:center;">
+          <button id="payBtn" style="background:#2e9ad0;color:#fff;border:none;border-radius:8px;padding:14px 32px;font-size:18px;font-weight:600;cursor:pointer;box-shadow:0 2px 8px #ffe066;">Pay ₹999</button>
+        </div>
+      </div>
+    </div>
+    <div id="scanResult" style="margin-bottom:16px;font-size:18px;color:#2e9ad0;font-weight:500;"></div>
+    <button class="btn" id="goWelcomeBtn" style="display:none;background:#2e9ad0;border-radius:18px;font-size:20px;padding:14px 32px;box-shadow:0 2px 8px #ff4e50;transition:background 0.3s;">Go to Welcome Page</button>
+  </div>
+  <footer style="display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;margin-top:24px;">
+    <hr style="width:100vw;margin:0 0 10px 0;border:1px solid #ff4e50;">
+    <span style="color:#fff;font-size:15px;text-shadow:1px 1px 4px #ff4e50;">ALL RIGHTS RESERVED</span>
+  </footer>
+  <script src="https://unpkg.com/html5-qrcode@2.3.7/minified/html5-qrcode.min.js"></script>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    let scanned = false;
+    const goWelcomeBtn = document.createElement('button');
+    goWelcomeBtn.className = 'btn';
+    goWelcomeBtn.textContent = 'Go to Welcome Page';
+    goWelcomeBtn.style.display = 'none';
+    document.querySelector('.container').appendChild(goWelcomeBtn);
+    goWelcomeBtn.onclick = function() {
+      window.location.href = 'WelcomePage.html';
+    };
+    // Razorpay ₹1000 payment button (UPI enforced)
+    document.getElementById("payBtn").addEventListener("click", function() {
+      const userId = localStorage.getItem('userId');
+      const email = localStorage.getItem('email') || '';
+      fetch("/create-payment-link", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, email })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.url) {
+            window.location.href = data.url; // Redirect to Razorpay hosted payment page
+          } else {
+            alert('Failed to create payment link.');
+          }
+        })
+        .catch(() => {
+          alert('Server error.');
+        });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educate And Learn</title>
+    <link rel="stylesheet" href="ThankYouPage.css">
+</head>
+<body style="background:#ffe066;position:relative;">
+  <div class="gradient-overlay" style="position:absolute;top:0;left:0;width:100vw;height:100vh;background:linear-gradient(135deg,#ffe066 0%,#2e9ad0 100%);opacity:0.85;z-index:0;"></div>
+  <div class="hero" style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;">
+    <div class="overlay"></div>
+    <img src="./detail-brain-animation-hd-8k-wallpaper-background-stock-photographic-image_915071-23473.jpg" class="brain" style="width:100vw;height:100vh;object-fit:cover;position:absolute;top:0;left:0;z-index:0;">
+    <div class="text" style="background:rgba(255,255,255,0.92);padding:32px 24px;border-radius:18px;box-shadow:0 8px 32px rgba(46,154,208,0.18);display:flex;flex-direction:column;align-items:center;">
+      <h1 style="color:#2e9ad0;font-size:2.6rem;text-shadow:2px 2px 12px #ffe066,0 2px 8px #2e9ad0;font-weight:bold;letter-spacing:2px;margin-bottom:18px;text-align:center;">THANK YOU</h1>
+      <h2 style="color:#ff4e50;font-size:1.4rem;font-weight:600;text-align:center;margin-bottom:12px;">LOGIN AGAIN</h2>
+      <a href="LoginPage.html" style="margin-top:18px;padding:12px 32px;border-radius:12px;background:linear-gradient(135deg,#2e9ad0 0%,#ffe066 100%);color:#fff;font-size:18px;font-weight:bold;text-decoration:none;box-shadow:0 2px 8px #2e9ad0;transition:background 0.3s;">Go to Login</a>
+    </div>
+  </div>
+  <footer class="footer-line" style="position:fixed;left:0;bottom:0;width:100vw;text-align:center;padding:16px 0;color:#fff;font-size:16px;text-shadow:1px 1px 4px #2e9ad0;background:rgba(46,154,208,0.85);z-index:10;">ALL RIGHTS RESERVED</footer>
+  <!-- Loading spinner -->
+  <div id="loadingSpinner" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(255,255,255,0.7);z-index:999;justify-content:center;align-items:center;">
+      <div style="border:8px solid #2e9ad0;border-top:8px solid #ffe066;border-radius:50%;width:60px;height:60px;animation:spin 1s linear infinite;"></div>
+  </div>
+  <style>
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .footer-line { font-size:16px; }
+    .text a:hover { background:#ff4e50 !important; color:#fff !important; }
+    @media (max-width:600px) {
+      .hero { padding:8px !important; }
+      .text { padding:12px !important; }
+      h1 { font-size:1.2rem !important; }
+    }
+  </style>
+  <script>
+  function showSpinner() {
+      document.getElementById('loadingSpinner').style.display = 'flex';
+  }
+  function hideSpinner() {
+      document.getElementById('loadingSpinner').style.display = 'none';
+  }
+  </script>
+</body>
+</html>

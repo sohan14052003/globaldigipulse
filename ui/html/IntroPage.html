@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educate And Learn - Introduction</title>
+    <link rel="stylesheet" href="../css/app2.css">
+    <style>
+        body {
+            background-color: #ffe066;
+        }
+        .intro-box {
+            padding: 40px 28px;
+            border-radius: 18px;
+            box-shadow: 0 8px 32px rgba(46, 154, 208, 0.18);
+            min-width: 340px;
+            z-index: 3;
+            background: rgba(255, 255, 255, 0.92);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            color: #2e9ad0;
+            font-size: 2.6rem;
+            text-shadow: 2px 2px 12px #ffe066, 0 2px 8px #2e9ad0;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 28px;
+            text-align: center;
+        }
+        p {
+            font-size: 1.2rem;
+            color: #ff4e50;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .intro-btn {
+            background: #2e9ad0;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 14px 32px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px #ffe066;
+            margin-top: 24px;
+        }
+        .intro-btn:hover {
+            background: #ff4e50 !important;
+            color: #fff !important;
+        }
+        .button-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            margin-left: 48px;
+            margin-top: 180px;
+            align-items: stretch;
+        }
+        .btn-group {
+            width: 100%;
+            max-width: 380px;
+            min-height: 64px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 16px rgba(46,154,208,0.12);
+            border-radius: 24px;
+            background: rgba(255,255,255,0.92);
+            transition: box-shadow 0.2s, transform 0.2s;
+            margin-bottom: 0;
+        }
+        .btn-group:hover {
+            box-shadow: 0 8px 32px #2e9ad0;
+            transform: scale(1.03);
+        }
+        .icon-circle {
+            width: 48px;
+            height: 48px;
+            font-size: 22px;
+            margin-right: 16px;
+            background: #2e9ad0;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 8px #ffe066;
+        }
+        .pill-bg {
+            flex: 1;
+            width: 100%;
+            border-radius: 20px;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .pill-bg button {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 4px #2e9ad0;
+            padding: 0;
+        }
+        .pill-bg:hover {
+            filter: brightness(1.15);
+        }
+        @media (max-width: 600px) {
+            .intro-box { min-width: 98vw !important; padding: 16px !important; }
+            h1 { font-size: 1.4rem !important; }
+            .button-sidebar {
+        margin-left: 0;
+        margin-top: 32px;
+        gap: 16px;
+        align-items: center;
+    }
+    .btn-group {
+        max-width: 98vw;
+        min-height: 48px;
+        border-radius: 16px;
+    }
+    .icon-circle {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+        margin-right: 8px;
+    }
+    .pill-bg {
+        padding: 8px 12px;
+        border-radius: 12px;
+    }
+    .pill-bg button {
+        font-size: 14px;
+    }
+        }
+    </style>
+</head>
+<body style="background-color:#ffe066;position:relative;">
+  <div class="gradient-overlay" style="position:absolute;top:0;left:0;width:100vw;height:100vh;background:linear-gradient(135deg,#ffe066 0%,#2e9ad0 100%);opacity:0.85;z-index:0;"></div>
+  <main class="container" style="display:flex;flex-direction:row;align-items:center;justify-content:center;height:100vh;position:relative;z-index:1;">
+    <section class="content-left" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+      <div class="intro-box" style="display:flex;flex-direction:row;align-items:flex-start;justify-content:center;width:100%;gap:32px;">
+        <div style="flex:1;min-width:260px;max-width:420px;display:flex;flex-direction:column;align-items:center;">
+          <h1>WELCOME TO EDUCATE AND LEARN YOURSELF</h1>
+          <p>Start your journey to learn, earn, and grow with our unique program. Click below to continue!</p>
+          <div class="video-container" style="width:100%;max-width:420px;margin-bottom:24px;border-radius:12px;box-shadow:0 2px 8px #2e9ad0;overflow:hidden;">
+            <video width="100%" height="220" controls style="border-radius:12px;max-height: 220px;">
+              <source src="https://archive.org/download/short-video.jpg/short%20video2.jpg.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+          <div style="margin-top:24px;display:flex;flex-direction:column;gap:12px;width:100%;align-items:center;">
+            <button class="intro-btn" onclick="window.location.href='WelcomePage.html'">Continue</button>
+          </div>
+        </div>
+        <aside class="button-sidebar" style="display:flex;flex-direction:column;gap:24px;margin-left:48px;margin-top:180px;align-items:stretch;">
+          <div class="btn-group" style="width:100%; max-width:380px; min-height:64px; display:flex; align-items:center; box-shadow:0 4px 16px rgba(46,154,208,0.12); border-radius:24px; background:rgba(255,255,255,0.92); transition:box-shadow 0.2s, transform 0.2s; margin-bottom:0;">
+            <div class="icon-circle">Y</div>
+            <div class="pill-bg blue-grad" style="flex:1; width:100%; border-radius:20px; padding:12px 24px; display:flex; align-items:center; cursor:pointer; transition:background 0.2s;">
+              <button style="background:none;border:none;color:white;font-size:18px;font-weight:bold;cursor:pointer;width:100%;text-align:center;letter-spacing:1px;text-shadow:1px 1px 4px #2e9ad0;padding:0; text-transform:uppercase;" onclick="showYoutubePopup()">PROSPECTING ON YOUTUBE FOR ORGANIC SALES</button>
+            </div>
+          </div>
+          <div class="btn-group" style="width:100%; max-width:380px; min-height:64px; display:flex; align-items:center; box-shadow:0 4px 16px rgba(46,154,208,0.12); border-radius:24px; background:rgba(255,255,255,0.92); transition:box-shadow 0.2s, transform 0.2s; margin-bottom:0;">
+            <div class="icon-circle">F</div>
+            <div class="pill-bg pink-grad" style="flex:1; width:100%; border-radius:20px; padding:12px 24px; display:flex; align-items:center; cursor:pointer; transition:background 0.2s;">
+              <button style="background:none;border:none;color:white;font-size:18px;font-weight:bold;cursor:pointer;width:100%;text-align:center;letter-spacing:1px;text-shadow:1px 1px 4px #2e9ad0;padding:0;" onclick="showFacebookPopup()">PROSPECTING ON FACEBOOK FOR ORGANIC SALES</button>
+            </div>
+          </div>
+          <div class="btn-group" style="width:100%; max-width:380px; min-height:64px; display:flex; align-items:center; box-shadow:0 4px 16px rgba(46,154,208,0.12); border-radius:24px; background:rgba(255,255,255,0.92); transition:box-shadow 0.2s, transform 0.2s; margin-bottom:0;">
+            <div class="icon-circle">I</div>
+            <div class="pill-bg orange-grad" style="flex:1; width:100%; border-radius:20px; padding:12px 24px; display:flex; align-items:center; cursor:pointer; transition:background 0.2s;">
+              <button style="background:none;border:none;color:white;font-size:18px;font-weight:bold;cursor:pointer;width:100%;text-align:center;letter-spacing:1px;text-shadow:1px 1px 4px #2e9ad0;padding:0;" onclick="showInstagramPopup()">PROSPECTING ON INSTAGRAM FOR ORGANIC SALES</button>
+            </div>
+          </div>
+          <div class="btn-group" style="width:100%; max-width:380px; min-height:64px; display:flex; align-items:center; box-shadow:0 4px 16px rgba(46,154,208,0.12); border-radius:24px; background:rgba(255,255,255,0.92); transition:box-shadow 0.2s, transform 0.2s; margin-bottom:0;">
+            <div class="icon-circle">S</div>
+            <div class="pill-bg blue-grad" style="flex:1; width:100%; border-radius:20px; padding:12px 24px; display:flex; align-items:center; cursor:pointer; transition:background 0.2s;">
+              <button style="background:none;border:none;color:white;font-size:18px;font-weight:bold;cursor:pointer;width:100%;text-align:center;letter-spacing:1px;text-shadow:1px 1px 4px #2e9ad0;padding:0;" onclick="showSocialPopup()">ORGANIC SALES - SOCIAL PRESENCES</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+  <div id="organic-popup" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);z-index:1000;align-items:center;justify-content:center;">
+    <div style="background:none;padding:0;border-radius:0;box-shadow:none;width:100vw;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+      <video id="organic-video" width="100%" height="100%" controls style="border-radius:0;max-width:100vw;max-height:100vh;background:#000;">
+        <source src="https://archive.org/download/bonus-video-2.jpg/1.%20Prospecting%20on%20youtube%20for%20organic%20sales.jpg%20%282%29.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <button onclick="closeOrganicPopup()" style="position:absolute;top:32px;right:32px;background:#ff4e50;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:18px;font-weight:bold;cursor:pointer;z-index:1001;">Close</button>
+    </div>
+  </div>
+  <div id="facebook-popup" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);z-index:1000;align-items:center;justify-content:center;">
+    <div style="background:none;padding:0;border-radius:0;box-shadow:none;width:100vw;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+      <video id="facebook-video" width="100%" height="100%" controls style="border-radius:0;max-width:100vw;max-height:100vh;background:#000;">
+        <source src="https://archive.org/download/bonus-video-2.jpg/2.%20Prospecting%20on%20facebook%20for%20organic%20sales.jpg.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <button onclick="closeFacebookPopup()" style="position:absolute;top:32px;right:32px;background:#ff4e50;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:18px;font-weight:bold;cursor:pointer;z-index:1001;">Close</button>
+    </div>
+  </div>
+  <div id="instagram-popup" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);z-index:1000;align-items:center;justify-content:center;">
+    <div style="background:none;padding:0;border-radius:0;box-shadow:none;width:100vw;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+      <video id="instagram-video" width="100%" height="100%" controls style="border-radius:0;max-width:100vw;max-height:100vh;background:#000;">
+        <source src="https://archive.org/download/bonus-video-2.jpg/3.%20Prospecting%20on%20instagram%20for%20organic%20sales.jpg.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <button onclick="closeInstagramPopup()" style="position:absolute;top:32px;right:32px;background:#ff4e50;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:18px;font-weight:bold;cursor:pointer;z-index:1001;">Close</button>
+    </div>
+  </div>
+  <div id="social-popup" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);z-index:1000;align-items:center;justify-content:center;">
+    <div style="background:none;padding:0;border-radius:0;box-shadow:none;width:100vw;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+      <video id="social-video" width="100%" height="100%" controls style="border-radius:0;max-width:100vw;max-height:100vh;background:#000;">
+        <source src="https://archive.org/download/bonus-video-2.jpg/Organic%20sales-social%20presences.jpg.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <button onclick="closeSocialPopup()" style="position:absolute;top:32px;right:32px;background:#ff4e50;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:18px;font-weight:bold;cursor:pointer;z-index:1001;">Close</button>
+    </div>
+  </div>
+  <div id="youtube-popup" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);z-index:1000;align-items:center;justify-content:center;">
+    <div style="background:none;padding:0;border-radius:0;box-shadow:none;width:100vw;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+      <video id="youtube-video" width="100%" height="100%" controls style="border-radius:0;max-width:100vw;max-height:100vh;background:#000;">
+        <source src="https://archive.org/download/bonus-video-2.jpg/1.%20Prospecting%20on%20youtube%20for%20organic%20sales.jpg%20%282%29.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <button onclick="closeYoutubePopup()" style="position:absolute;top:32px;right:32px;background:#ff4e50;color:#fff;border:none;border-radius:8px;padding:10px 24px;font-size:18px;font-weight:bold;cursor:pointer;z-index:1001;">Close</button>
+    </div>
+  </div>
+  <footer class="footer-line" style="position:fixed;left:0;bottom:0;width:100vw;text-align:center;padding:6px 0;color:#fff;font-size:12px;text-shadow:1px 1px 4px #2e9ad0;background:rgba(46,154,208,0.85);z-index:10;">
+    ALL RIGHTS RESERVED
+  </footer>
+  <script>
+    function showOrganicPopup() {
+      document.getElementById('organic-popup').style.display = 'flex';
+      var vid = document.getElementById('organic-video');
+      vid.currentTime = 0;
+      vid.play();
+    }
+    function closeOrganicPopup() {
+      document.getElementById('organic-popup').style.display = 'none';
+      var vid = document.getElementById('organic-video');
+      vid.pause();
+    }
+    function showFacebookPopup() {
+      document.getElementById('facebook-popup').style.display = 'flex';
+      var vid = document.getElementById('facebook-video');
+      vid.currentTime = 0;
+      vid.play();
+    }
+    function closeFacebookPopup() {
+      document.getElementById('facebook-popup').style.display = 'none';
+      var vid = document.getElementById('facebook-video');
+      vid.pause();
+    }
+    function showInstagramPopup() {
+      document.getElementById('instagram-popup').style.display = 'flex';
+      var vid = document.getElementById('instagram-video');
+      vid.currentTime = 0;
+      vid.play();
+    }
+    function closeInstagramPopup() {
+      document.getElementById('instagram-popup').style.display = 'none';
+      var vid = document.getElementById('instagram-video');
+      vid.pause();
+    }
+    function showSocialPopup() {
+      document.getElementById('social-popup').style.display = 'flex';
+      var vid = document.getElementById('social-video');
+      vid.currentTime = 0;
+      vid.play();
+    }
+    function closeSocialPopup() {
+      document.getElementById('social-popup').style.display = 'none';
+      var vid = document.getElementById('social-video');
+      vid.pause();
+    }
+    function showYoutubePopup() {
+      document.getElementById('youtube-popup').style.display = 'flex';
+      var vid = document.getElementById('youtube-video');
+      vid.currentTime = 0;
+      vid.pause(); // Do not autoplay
+    }
+    function closeYoutubePopup() {
+      document.getElementById('youtube-popup').style.display = 'none';
+      var vid = document.getElementById('youtube-video');
+      vid.pause();
+    }
+  </script>
+</body>
+</html>

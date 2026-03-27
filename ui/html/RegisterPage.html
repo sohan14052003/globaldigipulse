@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Educate And Learn</title>
+    <link rel="stylesheet" href="../css/app2.css">
+    <style>
+        body {
+            background-image: url('../images/detail-brain-animation-hd-8k-wallpaper-background-stock-photographic-image_915071-23473.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            min-height: 100vh;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 90vh;
+        }
+        .content-left {
+            background: rgba(255,255,255,0.92);
+            box-shadow: 0 8px 32px #2e9ad0;
+            border-radius: 24px;
+            padding: 40px 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 420px;
+            width: 100%;
+            margin-top: 32px;
+            animation: fadeIn 1s;
+        }
+        .main-title {
+            font-weight: bold;
+            font-size: 2.2rem;
+            color: #2e9ad0;
+            margin-bottom: 24px;
+            text-shadow: 1px 1px 8px #ffe066;
+        }
+        #registerForm input {
+            border: 1px solid #2e9ad0;
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 18px;
+            margin-bottom: 12px;
+            background: #fff;
+            box-shadow: 0 2px 8px #ffe066;
+            transition: box-shadow 0.3s;
+        }
+        #registerForm input:focus {
+            box-shadow: 0 0 8px #2e9ad0;
+        }
+        #registerForm button {
+            padding: 14px 0;
+            font-size: 20px;
+            background: #2e9ad0;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            box-shadow: 0 2px 8px #ffe066;
+            transition: background 0.3s;
+        }
+        #registerForm button:hover {
+            background: #ff4e50 !important;
+            color: #fff !important;
+        }
+        #registerMessage {
+            margin-top: 16px;
+            color: #ff4e50;
+            font-size: 17px;
+            font-weight: 600;
+            text-align: center;
+        }
+        .content-left p {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 16px;
+            color: #2e9ad0;
+        }
+        .content-left a {
+            color: #ff4e50;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+        @keyframes fadeIn {
+            from { opacity:0; transform:translateY(40px); }
+            to { opacity:1; transform:translateY(0); }
+        }
+        @media (max-width:600px) {
+            .content-left {
+                max-width:98vw !important;
+                padding:16px !important;
+            }
+            .main-title {
+                font-size:1.3rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <section class="content-left">
+            <h1 class="main-title">Register New Account</h1>
+            <form id="registerForm" style="max-width:350px;margin:auto;display:flex;flex-direction:column;gap:16px;" autocomplete="off">
+                <input type="text" id="username" name="username" placeholder="Username" required style="padding:8px;font-size:15px;" autocomplete="off">
+                <input type="email" id="email" name="email" placeholder="Email" required style="padding:8px;font-size:15px;" autocomplete="off">
+                <input type="password" id="password" name="password" placeholder="Password" required style="padding:8px;font-size:15px;" autocomplete="off">
+                <button type="submit" style="padding:8px 16px;font-size:15px;">Register</button>
+            </form>
+            <div id="registerMessage" style="margin-top:16px;color:red;"></div>
+            <p style="margin-top:24px;">Already have an account? <a href="LoginPage.html">Login here</a></p>
+        </section>
+    </main>
+    <footer class="footer-line" style="display:flex;align-items:center;justify-content:center;padding:0;flex-direction:column;">
+        <hr style="position:absolute;left:0;right:0;width:100vw;margin:0 0 10px 0;border:1px solid black;">
+        <div style="width:100%;display:flex;align-items:center;justify-content:center;padding:0 30px;position:relative;">
+            <span>ALL RIGHTS RESERVED</span>
+        </div>
+    </footer>
+    <script>
+    document.getElementById("registerForm").addEventListener("submit", async function(e) {
+        e.preventDefault();
+        const username = document.getElementById("username").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const msgDiv = document.getElementById("registerMessage");
+        msgDiv.textContent = "Registering...";
+        try {
+            const res = await fetch("https://your-backend.onrender.com/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, email, password })
+            });
+            const data = await res.json();
+            if (data.success) {
+                msgDiv.style.color = "#2e9ad0";
+                msgDiv.textContent = "Registration successful! Redirecting to login...";
+                // Try to send thank you email, but don't block redirect
+                fetch("https://your-backend.onrender.com/send-register-thankyou", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, username, password })
+                }).catch(() => {});
+                setTimeout(() => {
+                    window.location.href = "LoginPage.html";
+                }, 1500);
+            } else {
+                msgDiv.style.color = "#ff4e50";
+                msgDiv.textContent = data.message || "Registration failed.";
+            }
+        } catch (err) {
+            msgDiv.style.color = "#ff4e50";
+            msgDiv.textContent = "Server error. Please try again.";
+        }
+    });
+    </script>
+</body>
+</html>
