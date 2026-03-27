@@ -122,3 +122,11 @@ ui/images/*.mp4
 *.dmg
 *.DS_Store
 Thumbs.db
+
+# EXCEPTIONS: Allow images used in login page
+!ui/html/usericon.jpg
+!ui/html/eye.jpg
+!ui/html/lock.jpg
+!ui/html/detail-brain-animation-hd-8k-wallpaper-background-stock-photographic-image_915071-23473.jpg
+!ui/images/lock.jpg
+!ui/images/detail-brain-animation-hd-8k-wallpaper-background-stock-photographic-image_915071-23473.jpg

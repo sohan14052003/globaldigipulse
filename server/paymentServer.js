@@ -11,6 +11,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const bodyParser = require('body-parser');
 const sgMail = require('@sendgrid/mail');
+const path = require('path');
 const app = express();
 const stripeKey = process.env.STRIPE_SECRET_KEY;
 let stripe = null;
@@ -31,8 +32,8 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
-// Serve static files from ui/html
-app.use(express.static(__dirname + '/../ui/html'));
+// Serve static files (CSS, images, etc.)
+app.use(express.static(path.join(__dirname, '../ui')));
 
 // Email setup
 const transporter = nodemailer.createTransport({
@@ -78,6 +79,11 @@ try {
   });
   User = mongoose.models.User || mongoose.model('User', userSchema);
 }
+
+// Serve LoginPage.html at root
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../ui/html/LoginPage.html'));
+});
 
 // Stripe Checkout Session
 if (stripe) {
@@ -346,23 +352,38 @@ app.post('/forgot-user', async (req, res) => {
     user.resetToken = resetToken;
     user.resetTokenExpiry = resetTokenExpiry;
     await user.save();
-    // Send username and password reset link (never send password)
-    const resetLink = `http://localhost:3000/reset-password?token=${resetToken}`;
-    const msg = {
-      to: email,
-      from: process.env.EMAIL_FROM || 'noreply@yourdomain.com',
-      subject: 'Educate And Learn - Forgot User',
-      text: `Your username: ${user.username}\nTo reset your password, click the link below:\n${resetLink}`
-    };
-    try {
-      await sgMail.send(msg);
-    } catch (mailError) {
-      console.error('Forgot-user: Mail sending error', mailError);
-      return res.status(500).json({ success: false, error: 'Mail sending failed.' });
-    }
-    res.json({ success: true });
+    // Provide reset link in response (no email)
+    const resetLink = `/reset-password.html?token=${resetToken}`;
+    res.json({ success: true, resetLink });
   } catch (error) {
     console.error('Forgot-user: Server error', error);
+    res.status(500).json({ success: false, error: 'Server error.' });
+  }
+});
+
+// Reset username and password endpoint
+app.post('/reset-username-password', async (req, res) => {
+  const { token, newUsername, newPassword } = req.body;
+  if (!token || !newUsername || !newPassword) {
+    return res.status(400).json({ success: false, error: 'Token, new username, and new password required.' });
+  }
+  try {
+    const user = await User.findOne({ resetToken: token, resetTokenExpiry: { $gt: new Date() } });
+    if (!user) {
+      return res.status(400).json({ success: false, error: 'Invalid or expired token.' });
+    }
+    // Check if new username is taken
+    const existing = await User.findOne({ username: newUsername });
+    if (existing && existing._id.toString() !== user._id.toString()) {
+      return res.status(400).json({ success: false, error: 'Username already taken.' });
+    }
+    user.username = newUsername;
+    user.password = await bcrypt.hash(newPassword, 10);
+    user.resetToken = undefined;
+    user.resetTokenExpiry = undefined;
+    await user.save();
+    res.json({ success: true });
+  } catch (error) {
     res.status(500).json({ success: false, error: 'Server error.' });
   }
 });
