@@ -447,6 +447,11 @@ app.post('/reset-password', async (req, res) => {
   }
 });
 
+// Serve ResetPassword.html for both /reset-password.html and /ResetPassword.html (case-insensitive)
+app.get(/^\/reset-password\.html$/i, (req, res) => {
+  res.sendFile(path.join(__dirname, '../ui/html/ResetPassword.html'));
+});
+
 app.listen(3000, () => {
   console.log('Payment server running on http://localhost:3000');
 });
