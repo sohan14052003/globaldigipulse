@@ -92,9 +92,9 @@
     }
   </style>
   <script>
-    document.getElementById("goToCampaignBtn").addEventListener("click", function() {
-        window.location.href = "CampainPage.html";
-    });
+    document.getElementById("goToCampaignBtn")?.addEventListener("click", function() {
+  window.location.href = "CampainPage.html";
+});
     function showFBManagerPopup() {
       document.getElementById('fbmanager-popup').style.display = 'flex';
       var vid = document.getElementById('fbmanager-video');

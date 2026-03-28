@@ -156,7 +156,7 @@
             </video>
           </div>
           <div style="margin-top:24px;display:flex;flex-direction:column;gap:12px;width:100%;align-items:center;">
-            <button class="intro-btn" onclick="window.location.href='WelcomePage.html'">Continue</button>
+            <button class="intro-btn" id="goToWelcomeBtn">Continue</button>
           </div>
         </div>
         <aside class="button-sidebar" style="display:flex;flex-direction:column;gap:24px;margin-left:48px;margin-top:180px;align-items:stretch;">
@@ -237,6 +237,9 @@
     ALL RIGHTS RESERVED
   </footer>
   <script>
+    document.getElementById("goToWelcomeBtn")?.addEventListener("click", function() {
+  window.location.href = "WelcomePage.html";
+});
     function showOrganicPopup() {
       document.getElementById('organic-popup').style.display = 'flex';
       var vid = document.getElementById('organic-video');
