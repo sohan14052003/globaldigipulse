@@ -131,7 +131,7 @@
         const msgDiv = document.getElementById("registerMessage");
         msgDiv.textContent = "Registering...";
         try {
-            const res = await fetch("https://your-backend.onrender.com/register", {
+            const res = await fetch("https://globaldigipulse.onrender.com/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ username, email, password })
@@ -141,7 +141,7 @@
                 msgDiv.style.color = "#2e9ad0";
                 msgDiv.textContent = "Registration successful! Redirecting to login...";
                 // Try to send thank you email, but don't block redirect
-                fetch("https://your-backend.onrender.com/send-register-thankyou", {
+                fetch("https://globaldigipulse.onrender.com/send-register-thankyou", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email, username, password })
