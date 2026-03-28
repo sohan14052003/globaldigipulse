@@ -413,7 +413,13 @@
 
         // Registration Modal Script
         function openRegisterModal() {
-            document.getElementById('registerModal').style.display = 'flex';
+            var modal = document.getElementById('registerModal');
+            modal.style.display = 'flex';
+            modal.style.pointerEvents = 'auto'; // Ensure pointer events enabled
+            // Also enable pointer events for all children
+            Array.from(modal.querySelectorAll('*')).forEach(function(child) {
+                child.style.pointerEvents = 'auto';
+            });
             updateOverlayPointerEvents();
         }
         window.closeRegisterModal = function() {
