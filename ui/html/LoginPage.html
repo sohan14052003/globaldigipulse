@@ -78,7 +78,7 @@
             height: 20px;
             margin-right: 8px;
         }
-        button, #registerBtn {
+        button, #registerBtn, #forgotBtn {
             padding: 14px 0;
             font-size: 18px;
             background: #2e9ad0;
@@ -90,15 +90,14 @@
             font-weight: 600;
             box-shadow: 0 2px 8px #ffe066;
             transition: background 0.3s;
+            width: 100%;
+            margin: 0;
+            height: 100%;
         }
-        .small-btn {
-            padding: 4px 0;
-            font-size: 11px;
-            min-width: 70px;
-            max-width: 100px;
-            width: 85px;
+        #forgotBtn {
+            background: #ff4e50;
         }
-        .login-box button:hover, #registerBtn:hover {
+        .login-box button:hover, #registerBtn:hover, #forgotBtn:hover {
             background: #ff4e50 !important;
             color: #fff !important;
         }
@@ -250,9 +249,9 @@
                 </div>
                 <button type="submit">Sign in</button>
             </form>
-            <div style="margin-top:8px;width:100%;display:flex;flex-direction:row;justify-content:center;gap:12px;">
-                <button id="registerBtn" type="button" class="small-btn">New user? Register here</button>
-                <button id="forgotBtn" type="button" class="small-btn" style="background:#ff4e50;">Forgot user?</button>
+            <div style="margin-top:8px;width:100%;display:flex;flex-direction:row;gap:12px;align-items:stretch;">
+                <button id="registerBtn" type="button" style="flex:1;height:auto;">New user? Register here</button>
+                <button id="forgotBtn" type="button" style="flex:1;height:auto;">Forgot user?</button>
             </div>  
             <div id="message"></div>
             <noscript>
