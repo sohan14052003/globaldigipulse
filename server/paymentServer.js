@@ -34,6 +34,8 @@ app.use(express.json());
 app.use(bodyParser.json());
 // Serve static files (CSS, images, etc.)
 app.use(express.static(path.join(__dirname, '../ui')));
+// Serve HTML files directly from /ui/html for any direct GET request
+app.use(express.static(path.join(__dirname, '../ui/html')));
 
 // Email setup
 const transporter = nodemailer.createTransport({
@@ -79,11 +81,6 @@ try {
   });
   User = mongoose.models.User || mongoose.model('User', userSchema);
 }
-
-// Serve LoginPage.html at root
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../ui/html/LoginPage.html'));
-});
 
 // Stripe Checkout Session
 if (stripe) {
