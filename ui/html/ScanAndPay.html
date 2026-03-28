@@ -25,9 +25,9 @@
 </head>
 <body>
   <div class="container" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:90vh;">
-    <h2 style="font-weight:bold;text-transform:uppercase;font-size:2.6rem;letter-spacing:2px;color:#fff;text-shadow:2px 2px 12px #ff4e50, 0 2px 8px #f9d423;margin-bottom:24px;">Scan & Pay to Proceed</h2>
+    <h2 style="font-weight:bold;text-transform:uppercase;font-size:2.6rem;letter-spacing:2px;color:#fff;text-shadow:2px 2px 12px #ff4e50, 0 2px 8px #f9d423;margin-bottom:24px;">Pay to Unlock the Videos</h2>
     <div class="scanpay-card" style="background:rgba(255,255,255,0.92);box-shadow:0 8px 32px #ff4e50;border-radius:32px;padding:40px 28px;display:flex;flex-direction:column;align-items:center;max-width:480px;width:100%;margin-bottom:32px;">
-      <h3 style="font-weight:bold;font-size:2rem;color:#ff4e50;text-align:center;margin-bottom:24px;text-shadow:1px 1px 8px #ffe066;">Welcome to Educate And Learn Yourself</h3>
+      <h3 style="font-weight:bold;font-size:2rem;color:#ff4e50;text-align:center;margin-bottom:24px;text-shadow:1px 1px 8px #ffe066;">WELCOME TO GLOBAL DIGI PULSE</h3>
       <div id="upiQrContainer" style="display:flex;flex-direction:column;align-items:center;justify-content:center;">
         <!-- Removed QR code and UPI intent button for strict Razorpay enforcement -->
         <div style="margin-top:18px;text-align:center;">
@@ -58,17 +58,44 @@
     document.getElementById("payBtn").addEventListener("click", function() {
       const userId = localStorage.getItem('userId');
       const email = localStorage.getItem('email') || '';
-      fetch("/create-payment-link", {
+      const name = localStorage.getItem('name') || '';
+      fetch("/create-order", {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, email })
+        body: JSON.stringify({ userId })
       })
         .then(res => res.json())
-        .then(data => {
-          if (data.url) {
-            window.location.href = data.url; // Redirect to Razorpay hosted payment page
+        .then(order => {
+          if (order && order.id) {
+            const options = {
+              key: 'rzp_test_1DP5mmOlF5G5ag', // Razorpay public test key
+              amount: order.amount,
+              currency: order.currency,
+              name: 'Educate And Learn Yourself',
+              description: 'Access Program',
+              order_id: order.id,
+              handler: function (response) {
+                // Optionally verify payment on backend
+                alert('Payment successful! Payment ID: ' + response.razorpay_payment_id);
+                document.getElementById('goWelcomeBtn').style.display = 'block';
+              },
+              prefill: {
+                name: name,
+                email: email
+              },
+              theme: {
+                color: '#ff4e50'
+              },
+              modal: {
+                ondismiss: function() {
+                  // Optionally handle modal close
+                }
+              }
+            };
+            const rzp = new Razorpay(options);
+            rzp.open();
           } else {
-            alert('Failed to create payment link.');
+            alert('Failed to create order.');
           }
         })
         .catch(() => {

@@ -3,6 +3,7 @@
 const { MongoClient } = require("mongodb");
 const express = require("express");
 const cors = require("cors");
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -11,6 +12,10 @@ app.use(express.json());
 
 const url = process.env.MONGO_URL;
 const client = new MongoClient(url);
+
+app.use('/ui/html', express.static(path.join(__dirname, '../ui/html')));
+app.use('/images', express.static(path.join(__dirname, '../images')));
+app.use('/html', express.static(path.join(__dirname, '../ui/html'))); // for legacy paths
 
 async function startServer() {
   try {
