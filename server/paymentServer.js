@@ -356,7 +356,9 @@ app.post('/forgot-user', async (req, res) => {
     user.resetTokenExpiry = resetTokenExpiry;
     await user.save();
     // Provide reset link in response (no email)
-    const resetLink = `/reset-password.html?token=${resetToken}`;
+    // Use absolute URL for reset link
+    const baseUrl = req.protocol + '://' + req.get('host');
+    const resetLink = `${baseUrl}/reset-password.html?token=${resetToken}`;
     res.json({ success: true, resetLink });
   } catch (error) {
     console.error('Forgot-user: Server error', error);
