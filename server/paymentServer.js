@@ -1,3 +1,4 @@
+// Trigger redeploy: 2026-03-28
 require('dotenv').config();
 const express = require('express');
 const Stripe = require('stripe');
@@ -36,6 +37,11 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../ui')));
 // Serve HTML files directly from /ui/html for any direct GET request
 app.use(express.static(path.join(__dirname, '../ui/html')));
+
+// Serve LoginPage.html at root
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../ui/html/LoginPage.html'));
+});
 
 // Email setup
 const transporter = nodemailer.createTransport({
