@@ -270,7 +270,6 @@
                 <h2 style="color:#2e9ad0;margin-bottom:16px;">Forgot Username/Password?</h2>
                 <div class="input-box" style="margin-bottom:16px;">
                     <img src="/html/usericon.jpg" alt="User Icon" style="width:20px;height:20px;margin-right:8px;">
-                    <img src="/html/mailicon.jpg" alt="Mail Icon" style="width:20px;height:20px;margin-right:8px;">
                     <input type="email" id="forgotEmail" placeholder="Enter your registered email" required style="padding:12px;font-size:18px;border:none;outline:none;background:transparent;width:100%;">
                 </div>
                 <button id="sendForgotBtn" style="background:#2e9ad0;color:#fff;border:none;border-radius:8px;padding:10px;font-size:16px;font-weight:600;cursor:pointer;width:100%;transition:background 0.3s;">Send Reset Link</button>
@@ -385,7 +384,7 @@
                 });
                 const data = await response.json();
                 if (data.success && data.resetLink) {
-                    forgotMsg.innerHTML = `Reset link: <a href='https://globaldigipulse.onrender.com${data.resetLink}' target='_blank'>Click here to reset your username and password</a>`;
+                    forgotMsg.innerHTML = `Reset link: <a href='${data.resetLink}' target='_blank'>Click here to reset your username and password</a>`;
                 } else {
                     forgotMsg.textContent = data.error || "Unable to send details.";
                 }
