@@ -77,8 +77,7 @@
               order_id: order.id,
               handler: function (response) {
                 // Optionally verify payment on backend
-                alert('Payment successful! Payment ID: ' + response.razorpay_payment_id);
-                document.getElementById('goWelcomeBtn').style.display = 'block';
+                window.location.href = 'IntroPage.html';
               },
               prefill: {
                 name: name,
