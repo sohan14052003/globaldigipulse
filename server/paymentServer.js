@@ -397,16 +397,23 @@ app.post('/reset-username-password', async (req, res) => {
 app.post('/create-order', async (req, res) => {
   try {
     const { userId } = req.body;
-    const order = await razorpay.orders.create({
-      amount: 99900, // ₹999 in paise
-      currency: 'INR',
-      payment_capture: 1,
-      method: 'upi',
-      notes: { purpose: 'Access Program', userId: userId || '' }
-    });
-    res.json(order);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to create order', details: err.message });
+    if (!razorpay) {
+      return res.status(500).json({ error: 'Razorpay not initialized' });
+    }
+    try {
+      const order = await razorpay.orders.create({
+        amount: 99900, // ₹999 in paise
+        currency: 'INR',
+        payment_capture: 1,
+        notes: { purpose: 'Access Program', userId: userId || '' }
+      });
+      res.json(order);
+    } catch (err) {
+      console.error('Razorpay order error:', err);
+      res.status(500).json({ error: 'Failed to create order', details: err.message });
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Server error.' });
   }
 });
 

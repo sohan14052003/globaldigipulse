@@ -208,7 +208,7 @@ if (razorpayBtn) {
       const order = await res.json();
       if (order && order.id) {
         const options = {
-          key: 'REPLACE_WITH_YOUR_REAL_RAZORPAY_KEY_ID', // <-- Use your real Razorpay Key ID here
+          key: 'rzp_test_SYaEMm8lCBf27', // <-- Razorpay Test Key ID
           amount: order.amount,
           currency: order.currency,
           name: 'Educate And Learn',
