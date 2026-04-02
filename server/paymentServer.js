@@ -398,6 +398,7 @@ app.post('/create-order', async (req, res) => {
   try {
     const { userId } = req.body;
     if (!razorpay) {
+      console.error('Razorpay not initialized. KeyId:', process.env.RAZORPAY_KEY_ID, 'KeySecret:', process.env.RAZORPAY_KEY_SECRET);
       return res.status(500).json({ error: 'Razorpay not initialized' });
     }
     try {
@@ -407,12 +408,14 @@ app.post('/create-order', async (req, res) => {
         payment_capture: 1,
         notes: { purpose: 'Access Program', userId: userId || '' }
       });
+      console.log('Razorpay order created:', order);
       res.json(order);
     } catch (err) {
-      console.error('Razorpay order error:', err);
+      console.error('Razorpay order error:', err, 'KeyId:', process.env.RAZORPAY_KEY_ID, 'KeySecret:', process.env.RAZORPAY_KEY_SECRET);
       res.status(500).json({ error: 'Failed to create order', details: err.message });
     }
   } catch (error) {
+    console.error('General /create-order error:', error);
     res.status(500).json({ error: 'Server error.' });
   }
 });
