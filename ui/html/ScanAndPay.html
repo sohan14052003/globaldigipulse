@@ -77,8 +77,28 @@
               description: 'Access Program',
               order_id: order.id,
               handler: function (response) {
-                // Optionally verify payment on backend
-                window.location.href = 'IntroPage.html';
+                // Verify payment on backend before redirect
+                fetch('/verify-payment', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    razorpay_payment_id: response.razorpay_payment_id,
+                    razorpay_order_id: response.razorpay_order_id,
+                    razorpay_signature: response.razorpay_signature,
+                    userId: userId
+                  })
+                })
+                  .then(res => res.json())
+                  .then(data => {
+                    if (data.success) {
+                      window.location.href = 'IntroPage.html';
+                    } else {
+                      alert('Payment verification failed. Please contact support.');
+                    }
+                  })
+                  .catch(() => {
+                    alert('Server error during payment verification.');
+                  });
               },
               prefill: {
                 name: name,

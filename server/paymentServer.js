@@ -462,6 +462,31 @@ app.get(/^\/reset-password\.html$/i, (req, res) => {
   res.sendFile(path.join(__dirname, '../ui/html/ResetPassword.html'));
 });
 
+// Razorpay Payment Verification Endpoint
+app.post('/verify-payment', async (req, res) => {
+  const { razorpay_payment_id, razorpay_order_id, razorpay_signature, userId } = req.body;
+  if (!razorpay_payment_id || !razorpay_order_id || !razorpay_signature) {
+    return res.status(400).json({ success: false, error: 'Missing payment verification data.' });
+  }
+  try {
+    // Generate expected signature
+    const generated_signature = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
+      .update(razorpay_order_id + '|' + razorpay_payment_id)
+      .digest('hex');
+    if (generated_signature === razorpay_signature) {
+      // Optionally, mark user as paid in DB
+      if (userId) {
+        await User.findByIdAndUpdate(userId, { accessGranted: true });
+      }
+      return res.json({ success: true });
+    } else {
+      return res.status(400).json({ success: false, error: 'Invalid signature.' });
+    }
+  } catch (error) {
+    return res.status(500).json({ success: false, error: 'Server error.' });
+  }
+});
+
 app.listen(3000, () => {
   console.log('Payment server running on http://localhost:3000');
 });
