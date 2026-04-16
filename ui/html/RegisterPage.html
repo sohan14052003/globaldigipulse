@@ -14,6 +14,15 @@
             background-repeat: no-repeat;
             background-position: center center;
             min-height: 100vh;
+            position: relative;
+        }
+        .register-gradient {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(135deg, #ffe066 0%, #2e9ad0 100%);
+            opacity: 0.82;
+            z-index: 0;
+            pointer-events: none;
         }
         .container {
             display: flex;
@@ -21,68 +30,133 @@
             align-items: center;
             justify-content: center;
             min-height: 90vh;
+            position: relative;
+            z-index: 1;
         }
         .content-left {
-            background: rgba(255,255,255,0.92);
-            box-shadow: 0 8px 32px #2e9ad0;
-            border-radius: 24px;
-            padding: 40px 32px;
+            background: rgba(255,255,255,0.98);
+            box-shadow: 0 8px 32px #2e9ad0, 0 0 32px #ffe066;
+            border-radius: 36px;
+            padding: 54px 38px 44px 38px;
             display: flex;
             flex-direction: column;
             align-items: center;
             max-width: 420px;
             width: 100%;
             margin-top: 32px;
-            animation: fadeIn 1s;
+            animation: fadeIn 1s, popIn 0.7s;
+            position: relative;
+            overflow: hidden;
+        }
+        .content-left::before {
+            content: '';
+            position: absolute;
+            top: -50px; right: -50px;
+            width: 140px; height: 140px;
+            background: radial-gradient(circle,#ffe066 60%,#ff4e50 100%);
+            opacity: 0.18;
+            border-radius: 50%;
+            z-index: 0;
+            filter: blur(2px);
+        }
+        .content-left::after {
+            content: '';
+            position: absolute;
+            bottom: -50px; left: -50px;
+            width: 140px; height: 140px;
+            background: radial-gradient(circle,#2e9ad0 60%,#b37faa 100%);
+            opacity: 0.18;
+            border-radius: 50%;
+            z-index: 0;
+            filter: blur(2px);
+        }
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.13;
+            z-index: 0;
+            animation: floatShape 5s infinite alternate ease-in-out;
+        }
+        .floating-shape1 {
+            width: 38px; height: 38px;
+            background: linear-gradient(135deg,#2e9ad0 60%,#ffe066 100%);
+            top: 18px; left: 18px;
+            animation-delay: 0.2s;
+        }
+        .floating-shape2 {
+            width: 28px; height: 28px;
+            background: linear-gradient(135deg,#ff4e50 60%,#ffe066 100%);
+            bottom: 18px; right: 18px;
+            animation-delay: 0.7s;
+        }
+        @keyframes floatShape {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-12px) scale(1.08); }
         }
         .main-title {
             font-weight: bold;
             font-size: 2.2rem;
             color: #2e9ad0;
             margin-bottom: 24px;
-            text-shadow: 1px 1px 8px #ffe066;
+            text-shadow: 1px 1px 8px #ffe066, 0 2px 8px #2e9ad033;
+            z-index: 1;
+            letter-spacing: 1px;
+        }
+        #registerForm {
+            max-width: 350px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            width: 100%;
+            z-index: 1;
         }
         #registerForm input {
-            border: 1px solid #2e9ad0;
-            border-radius: 12px;
-            padding: 14px;
+            border: 1.5px solid #2e9ad0;
+            border-radius: 16px;
+            padding: 16px 18px;
             font-size: 18px;
-            margin-bottom: 12px;
+            margin-bottom: 0;
             background: #fff;
             box-shadow: 0 2px 8px #ffe066;
-            transition: box-shadow 0.3s;
+            transition: box-shadow 0.3s, border 0.2s;
         }
         #registerForm input:focus {
-            box-shadow: 0 0 8px #2e9ad0;
+            box-shadow: 0 0 12px #2e9ad0;
+            border: 2px solid #ff4e50;
         }
         #registerForm button {
-            padding: 14px 0;
-            font-size: 20px;
-            background: #2e9ad0;
+            padding: 16px 0;
+            font-size: 21px;
+            background: linear-gradient(90deg,#2e9ad0 0%,#ffe066 100%);
             color: #fff;
             border: none;
-            border-radius: 12px;
+            border-radius: 16px;
             cursor: pointer;
             font-weight: 700;
-            box-shadow: 0 2px 8px #ffe066;
-            transition: background 0.3s;
+            box-shadow: 0 2px 12px #ffe066, 0 2px 8px #2e9ad0;
+            transition: background 0.3s, transform 0.2s;
+            margin-top: 2px;
         }
         #registerForm button:hover {
-            background: #ff4e50 !important;
-            color: #fff !important;
+            background: linear-gradient(90deg,#ff4e50 0%,#ffe066 100%);
+            color: #fff;
+            transform: translateY(-2px) scale(1.04);
         }
         #registerMessage {
-            margin-top: 16px;
+            margin-top: 18px;
             color: #ff4e50;
-            font-size: 17px;
+            font-size: 18px;
             font-weight: 600;
             text-align: center;
+            z-index: 1;
         }
         .content-left p {
-            margin-top: 24px;
+            margin-top: 28px;
             text-align: center;
-            font-size: 16px;
+            font-size: 17px;
             color: #2e9ad0;
+            z-index: 1;
         }
         .content-left a {
             color: #ff4e50;
@@ -92,6 +166,11 @@
         @keyframes fadeIn {
             from { opacity:0; transform:translateY(40px); }
             to { opacity:1; transform:translateY(0); }
+        }
+        @keyframes popIn {
+            0% { transform: scale(0.92); }
+            60% { transform: scale(1.04); }
+            100% { transform: scale(1); }
         }
         @media (max-width:600px) {
             .content-left {
@@ -105,25 +184,28 @@
     </style>
 </head>
 <body>
-    <main class="container">
-        <section class="content-left">
-            <h1 class="main-title">Register New Account</h1>
-            <form id="registerForm" style="max-width:350px;margin:auto;display:flex;flex-direction:column;gap:16px;" autocomplete="off">
-                <input type="text" id="username" name="username" placeholder="Username" required style="padding:8px;font-size:15px;" autocomplete="off">
-                <input type="email" id="email" name="email" placeholder="Email" required style="padding:8px;font-size:15px;" autocomplete="off">
-                <input type="password" id="password" name="password" placeholder="Password" required style="padding:8px;font-size:15px;" autocomplete="off">
-                <button type="submit" style="padding:8px 16px;font-size:15px;">Register</button>
-            </form>
-            <div id="registerMessage" style="margin-top:16px;color:red;"></div>
-            <p style="margin-top:24px;">Already have an account? <a href="LoginPage.html">Login here</a></p>
-        </section>
-    </main>
-    <footer class="footer-line" style="display:flex;align-items:center;justify-content:center;padding:0;flex-direction:column;">
-        <hr style="position:absolute;left:0;right:0;width:100vw;margin:0 0 10px 0;border:1px solid black;">
-        <div style="width:100%;display:flex;align-items:center;justify-content:center;padding:0 30px;position:relative;">
-            <span>ALL RIGHTS RESERVED</span>
-        </div>
-    </footer>
+        <div class="register-gradient"></div>
+        <main class="container">
+            <section class="content-left">
+                <div class="floating-shape floating-shape1"></div>
+                <div class="floating-shape floating-shape2"></div>
+                <h1 class="main-title">Register New Account</h1>
+                <form id="registerForm" autocomplete="off">
+                    <input type="text" id="username" name="username" placeholder="Username" required autocomplete="off">
+                    <input type="email" id="email" name="email" placeholder="Email" required autocomplete="off">
+                    <input type="password" id="password" name="password" placeholder="Password" required autocomplete="off">
+                    <button type="submit">Register</button>
+                </form>
+                <div id="registerMessage"></div>
+                <p>Already have an account? <a href="LoginPage.html">Login here</a></p>
+            </section>
+        </main>
+        <footer class="footer-line" style="display:flex;align-items:center;justify-content:center;padding:0;flex-direction:column;">
+            <hr style="position:absolute;left:0;right:0;width:100vw;margin:0 0 10px 0;border:1px solid black;">
+            <div style="width:100%;display:flex;align-items:center;justify-content:center;padding:0 30px;position:relative;">
+                <span>ALL RIGHTS RESERVED</span>
+            </div>
+        </footer>
     <script>
     document.getElementById("registerForm").addEventListener("submit", async function(e) {
         e.preventDefault();
