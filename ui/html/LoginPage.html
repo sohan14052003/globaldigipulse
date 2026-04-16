@@ -40,77 +40,90 @@
             pointer-events: none;
         }
         .login-box {
-            padding: 48px 38px;
-            border-radius: 18px;
-            box-shadow: 0 8px 32px rgba(46, 154, 208, 0.18);
-            min-width: 400px;
-            max-width: 480px;
+            padding: 56px 40px 40px 40px;
+            border-radius: 28px;
+            box-shadow: 0 8px 32px #2e9ad0, 0 0 32px #ffe066;
+            min-width: 340px;
+            max-width: 420px;
             z-index: 10;
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.97);
             display: flex;
             flex-direction: column;
             align-items: center;
-        }
-        h1 {
-            color: #fff;
-            font-size: 2.6rem;
-            text-shadow: 2px 2px 12px #2e9ad0, 0 2px 8px #ffe066;
-            font-weight: bold;
-            letter-spacing: 2px;
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 28px;
-            font-size: 2rem;
-            color: #2e9ad0;
-            font-weight: 700;
-            text-shadow: 1px 1px 8px #ffe066;
-        }
-        .input-box {
-            display: flex;
-            align-items: center;
-            border: 1px solid #2e9ad0;
-            border-radius: 8px;
-            padding: 12px;
-            background: #fff; 
-            box-shadow: 0 2px 8px #ffe066;
-            width: 100%;
             position: relative;
+            overflow: hidden;
+            transition: box-shadow 0.3s, transform 0.3s;
         }
-        .input-box img {
-            width: 20px;
-            height: 20px;
-            margin-right: 8px;
+        .login-box:hover {
+            box-shadow: 0 12px 48px #ff4e50, 0 0 48px #ffe066;
+            transform: translateY(-4px) scale(1.025);
         }
-        #togglePassword {
+        .login-box::before {
+            content: '';
             position: absolute;
-            right: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            margin-right: 0;
+            top: -40px;
+            right: -40px;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle,#ffe066 60%,#ff4e50 100%);
+            opacity: 0.13;
+            border-radius: 50%;
+            z-index: 0;
         }
-        button, #registerBtn, #forgotBtn {
-            padding: 14px 0;
-            font-size: 18px;
-            background: #2e9ad0;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            z-index: 11;
-            font-weight: 600;
-            box-shadow: 0 2px 8px #ffe066;
-            transition: background 0.3s;
+        .login-box::after {
+            content: '';
+            position: absolute;
+            bottom: -40px;
+            left: -40px;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle,#2e9ad0 60%,#b37faa 100%);
+            opacity: 0.13;
+            border-radius: 50%;
+            z-index: 0;
+        }
+        .login-box h2 {
+            z-index: 1;
+        }
+        .login-box .input-box {
+            z-index: 1;
+        }
+        /* Creative New User & Forgot User Buttons */
+        .login-box .action-btns {
+            margin-top: 8px;
             width: 100%;
-            margin: 0;
-            height: 100%;
+            display: flex;
+            flex-direction: row;
+            gap: 16px;
+            align-items: stretch;
+            z-index: 1;
+        }
+        #registerBtn, #forgotBtn {
+            flex: 1;
+            height: auto;
+            padding: 16px 0;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 14px;
+            border: none;
+            box-shadow: 0 2px 12px #ffe066, 0 2px 8px #ff4e50;
+            background: linear-gradient(90deg,#2e9ad0 0%,#ffe066 100%);
+            color: #fff;
+            letter-spacing: 1px;
+            transition: background 0.3s, transform 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        #registerBtn:hover, #forgotBtn:hover {
+            background: linear-gradient(90deg,#ff4e50 0%,#ffe066 100%);
+            color: #fff;
+            transform: translateY(-2px) scale(1.04);
         }
         #forgotBtn {
-            background: #ff4e50;
+            background: linear-gradient(90deg,#ff4e50 0%,#ffe066 100%);
         }
-        .login-box button:hover, #registerBtn:hover, #forgotBtn:hover {
-            background: #ff4e50 !important;
-            color: #fff !important;
+        #forgotBtn:hover {
+            background: linear-gradient(90deg,#2e9ad0 0%,#ffe066 100%);
         }
         p {
             margin-top: 22px;
@@ -260,9 +273,9 @@
                 </div>
                 <button type="submit">Sign in</button>
             </form>
-            <div style="margin-top:8px;width:100%;display:flex;flex-direction:row;gap:12px;align-items:stretch;">
-                <button id="registerBtn" type="button" style="flex:1;height:auto;">New user? Register here</button>
-                <button id="forgotBtn" type="button" style="flex:1;height:auto;">Forgot user?</button>
+            <div class="action-btns">
+                <button id="registerBtn" type="button">New user? Register here</button>
+                <button id="forgotBtn" type="button">Forgot user?</button>
             </div>  
             <div id="message"></div>
             <noscript>
