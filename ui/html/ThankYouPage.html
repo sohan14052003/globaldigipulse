@@ -3,188 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GLOBAL DIGI PULSE</title>
-    <link rel="stylesheet" href="ThankYouPage.css">
-    <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+    <title>Thank You | GLOBAL DIGI PULSE</title>
+    <link rel="icon" type="image/png" href="../images/icon-7797704_640.JPG">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <style>
         body {
-            background: linear-gradient(135deg, #ffe066 0%, #2e9ad0 100%);
+            background: #f7f7fa;
             min-height: 100vh;
-            overflow-x: hidden;
-        }
-        .gradient-overlay {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background: linear-gradient(135deg, #ffe066 0%, #2e9ad0 100%);
-            opacity: 0.85;
-            z-index: 0;
-        }
-        .hero {
-            position: relative;
-            z-index: 1;
+            margin: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
         }
-        .brain {
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
-            position: absolute;
-            top: 0; left: 0;
-            z-index: 0;
-            filter: blur(2.5px) brightness(0.85) grayscale(0.1) contrast(1.1);
-            opacity: 0.7;
-            animation: brainZoom 12s ease-in-out infinite alternate;
-        }
-        @keyframes brainZoom {
-            0% { transform: scale(1) rotate(0deg); }
-            100% { transform: scale(1.07) rotate(1deg); }
-        }
-        .text {
-            background: rgba(255,255,255,0.92);
-            padding: 40px 32px;
-            border-radius: 24px;
-            box-shadow: 0 8px 32px rgba(46,154,208,0.18), 0 2px 16px #ffe066a0;
+        .thankyou-box {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px #2e9ad033;
+            padding: 40px 28px;
+            max-width: 380px;
+            width: 90vw;
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative;
-            z-index: 2;
-            border: 2.5px solid #2e9ad0;
-            backdrop-filter: blur(2px);
-            animation: floatUp 1.2s cubic-bezier(.6,-0.28,.74,.05);
-            margin-left: 140px; /* move the thank you/login again box further to the right */
+            margin: 0 auto;
         }
-        @keyframes floatUp {
-            0% { opacity: 0; transform: translateY(40px) scale(0.95); }
-            100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        .main-thankyou {
+        .thankyou-box h1 {
             color: #2e9ad0;
-            font-size: 2.8rem;
-            text-shadow: 2px 2px 12px #ffe066, 0 2px 8px #2e9ad0;
-            font-weight: bold;
-            letter-spacing: 2px;
+            font-size: 2.2rem;
             margin-bottom: 18px;
             text-align: center;
-            animation: pulseGlow 2.2s infinite;
-        }
-        @keyframes pulseGlow {
-            0%, 100% { text-shadow: 2px 2px 12px #ffe066, 0 2px 8px #2e9ad0; }
-            50% { text-shadow: 0 0 32px #ffe066, 0 2px 16px #2e9ad0; }
-        }
-        .subtitle {
-            color: #ff4e50;
-            font-size: 1.5rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 16px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        .text a {
-            margin-top: 22px;
-            padding: 14px 38px;
-            border-radius: 16px;
-            background: linear-gradient(135deg, #2e9ad0 0%, #ffe066 100%);
-            color: #fff;
-            font-size: 20px;
             font-weight: bold;
-            text-decoration: none;
-            box-shadow: 0 2px 12px #2e9ad0, 0 2px 8px #ffe066a0;
-            border: none;
-            outline: none;
-            transition: background 0.3s, transform 0.18s, box-shadow 0.18s;
-            position: relative;
-            overflow: hidden;
+            letter-spacing: 1px;
         }
-        .text a::before {
-            content: '';
-            position: absolute;
-            top: -2px; left: -2px; right: -2px; bottom: -2px;
-            border-radius: 18px;
-            background: linear-gradient(120deg, #ffe066 0%, #2e9ad0 100%);
-            filter: blur(8px);
-            opacity: 0.5;
-            z-index: -1;
-            transition: opacity 0.2s;
+        .thankyou-box a {
+            display: inline-block;
+            margin-top: 12px;
+            color: #ff4e50;
+            font-weight: 600;
+            text-decoration: underline;
+            font-size: 1rem;
         }
-        .text a:hover, .text a:focus {
-            background: #ff4e50 !important;
-            color: #fff !important;
-            transform: scale(1.04);
-            box-shadow: 0 8px 32px #ffe066, 0 2px 16px #2e9ad0;
-        }
-        .svg-icon {
-            width: 48px;
-            height: 48px;
-            margin-bottom: 12px;
-            fill: #2e9ad0;
-            filter: drop-shadow(0 2px 8px #ffe066a0);
-            animation: iconPop 1.2s cubic-bezier(.6,-0.28,.74,.05);
-        }
-        @keyframes iconPop {
-            0% { opacity: 0; transform: scale(0.7); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-        .footer-line {
-            font-size: 16px;
+        footer {
+            margin-top: 32px;
+            color: #232323;
+            font-size: 13px;
             text-align: center;
-            left: 0;
-            right: 0;
-            margin: 0 auto;
-            width: 100vw;
-            position: fixed;
-            bottom: 0;
-            padding: 16px 0;
-            color: #fff;
-            text-shadow: 1px 1px 4px #2e9ad0;
-            background: rgba(46,154,208,0.85);
-            z-index: 10;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
-        @media (max-width:600px) {
-          .hero { padding:8px !important; }
-          .text { padding:12px !important; }
-          .main-thankyou { font-size:1.2rem !important; }
+        @media (max-width: 600px) {
+            .thankyou-box {
+                padding: 22px 8px;
+                font-size: 1rem;
+            }
+            .thankyou-box h1 {
+                font-size: 1.3rem;
+            }
         }
     </style>
 </head>
 <body>
-  <div class="gradient-overlay"></div>
-  <div class="hero">
-    <img src="/detail-brain-animation-hd-8k-wallpaper-background-stock-photographic-image_915071-23473.jpg" class="brain">
-    <div class="text">
-      <svg class="svg-icon" viewBox="0 0 64 64"><defs><radialGradient id="g1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffe066"/><stop offset="100%" stop-color="#2e9ad0"/></radialGradient></defs><circle cx="32" cy="32" r="28" fill="url(#g1)"/><path d="M20 34l8 8 16-16" stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <h1 class="main-thankyou">THANK YOU</h1>
-      <h2 class="subtitle">LOGIN AGAIN</h2>
-      <a href="LoginPage.html">Go to Login</a>
+    <div class="thankyou-box">
+        <h1>Thank You!</h1>
+        <a href="LoginPage.html">Back to Login</a>
     </div>
-  </div>
-  <footer class="footer-line">ALL RIGHTS RESERVED</footer>
-  <!-- Loading spinner -->
-  <div id="loadingSpinner" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(255,255,255,0.7);z-index:999;justify-content:center;align-items:center;">
-      <div style="border:8px solid #2e9ad0;border-top:8px solid #ffe066;border-radius:50%;width:60px;height:60px;animation:spin 1s linear infinite;"></div>
-  </div>
-  <style>
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-  </style>
-  <script>
-  function showSpinner() {
-      document.getElementById('loadingSpinner').style.display = 'flex';
-  }
-  function hideSpinner() {
-      document.getElementById('loadingSpinner').style.display = 'none';
-  }
-  </script>
+    <footer>
+        © ALL RIGHTS RESERVED
+    </footer>
 </body>
 </html>

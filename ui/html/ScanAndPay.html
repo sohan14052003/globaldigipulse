@@ -64,7 +64,7 @@
       goWelcomeBtn.style.display = 'none';
       document.querySelector('.container').appendChild(goWelcomeBtn);
       goWelcomeBtn.onclick = function() {
-        window.location.href = "IntroPage.html";
+        window.location.href = "BusinessAccount.html";
       };
       // Razorpay ₹1000 payment button (UPI enforced)
       document.getElementById("payBtn").addEventListener("click", function() {
@@ -101,7 +101,7 @@
                     .then(res => res.json())
                     .then(data => {
                       if (data.success) {
-                        window.location.href = 'IntroPage.html';
+                        window.location.href = 'ThankYouPage.html';
                       } else {
                         alert('Payment verification failed. Please contact support.');
                       }
