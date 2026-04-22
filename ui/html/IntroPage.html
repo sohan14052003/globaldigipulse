@@ -178,23 +178,31 @@
         }
         @media (max-width: 600px) {
             .container { flex-direction: column !important; align-items: center !important; justify-content: flex-start !important; height: auto !important; min-height: 100vh; }
-            .intro-box { min-width: 98vw !important; padding: 16px !important; flex-direction: column !important; align-items: center !important; }
+            .intro-box {
+                min-width: 98vw !important;
+                padding: 16px !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                gap: 0 !important;
+            }
             h1 { font-size: 1.4rem !important; color: #2e9ad0 !important; margin-bottom: 18px !important; text-shadow: 1px 1px 6px #ffe066, 0 1px 4px #2e9ad0 !important; font-weight: bold !important; letter-spacing: 1px !important; text-align: center !important; word-break: break-word !important; white-space: normal !important; line-height: 1.2 !important; }
             p { display: none !important; }
+            .video-container { margin-bottom: 12px !important; }
             .button-sidebar {
-                margin-left: 0 !important;
-                margin-top: 18px !important;
-                gap: 16px !important;
+                margin: 12px auto 0 auto !important;
                 align-items: center !important;
-                width: 100vw !important;
+                width: 100% !important;
                 display: flex !important;
                 flex-direction: column !important;
                 justify-content: center !important;
+                position: static !important;
             }
             .btn-group {
                 max-width: 98vw;
                 min-height: 48px;
                 border-radius: 16px;
+                width: 100% !important;
+                justify-content: center !important;
             }
             .icon-circle {
                 width: 34px;
@@ -214,7 +222,6 @@
                 font-size: 13px;
             }
             .content-left { width: 100% !important; }
-            .video-container { margin-bottom: 12px !important; }
             .intro-btn { margin-top: 12px !important; font-size: 15px !important; padding: 10px 18px !important; border-radius: 18px !important; }
         }
     </style>
