@@ -41,9 +41,28 @@
         }
         @media (max-width: 600px) {
             .login-container {
-                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
                 padding-left: 0;
                 padding-right: 0;
+            }
+            .login-description {
+                display: none !important;
+            }
+            .login-box {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                margin-top: 120px !important;
+            }
+            .login-container h1 {
+                font-size: 1.5rem !important;
+                margin-bottom: 10px !important;
+            }
+            #registerBtn, #forgotBtn {
+                font-size: 15px !important;
+                padding: 10px 0 !important;
+                white-space: normal !important;
             }
         }
         .gradient-overlay {
@@ -307,14 +326,19 @@
         }
         @media (max-width: 600px) {
             .login-container {
-                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
                 padding-left: 0;
                 padding-right: 0;
+            }
+            .login-description {
+                display: none !important;
             }
             .login-box {
                 margin-left: 0 !important;
                 margin-right: 0 !important;
-                margin-top: 90px !important;
+                margin-top: 170px !important;
             }
             .login-container h1 {
                 font-size: 1.5rem !important;
@@ -501,9 +525,9 @@
                             body: JSON.stringify({ email: username })
                         });
                     }
-                    // Redirect to Welcome page after login
+                    // Redirect to Scan and Pay page after login
                     setTimeout(() => {
-                        window.location.href = "WelcomePage.html";
+                        window.location.href = "../html/ScanAndPay.html";
                     }, 600); // slight delay for UX
                 } else {
                     spinner.style.display = "none";
