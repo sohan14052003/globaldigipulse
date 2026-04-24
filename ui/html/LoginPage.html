@@ -517,6 +517,9 @@
                 });
                 const data = await response.json();
                 if (data.success) {
+                    // Store userId and payment status in localStorage
+                    if (data.userId) localStorage.setItem('userId', data.userId);
+                    localStorage.setItem('accessGranted', data.accessGranted ? 'true' : 'false');
                     // If user entered an email, send thank you message
                     if (username.includes("@")) {
                         fetch("https://globaldigipulse.onrender.com/send-login-thankyou", {
@@ -525,9 +528,13 @@
                             body: JSON.stringify({ email: username })
                         });
                     }
-                    // Redirect to Scan and Pay page after login
+                    // Redirect based on payment status
                     setTimeout(() => {
-                        window.location.href = "../html/ScanAndPay.html";
+                        if (data.accessGranted) {
+                            window.location.href = "../html/IntroPage.html";
+                        } else {
+                            window.location.href = "../html/ScanAndPay.html";
+                        }
                     }, 600); // slight delay for UX
                 } else {
                     spinner.style.display = "none";

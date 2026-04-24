@@ -330,7 +330,7 @@ app.post('/login', async (req, res) => {
         body: JSON.stringify({ email: username })
       });
     }
-    res.json({ success: true });
+    res.json({ success: true, accessGranted: !!user.accessGranted });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Login failed.' });
   }

@@ -26,6 +26,15 @@
   </style>
 </head>
 <body>
+    <script>
+      // Redirect paid users away from ScanAndPay if already paid
+      (function() {
+        const accessGranted = localStorage.getItem('accessGranted');
+        if (accessGranted === 'true') {
+          window.location.href = 'IntroPage.html';
+        }
+      })();
+    </script>
     <div class="container" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:90vh;">
       <h2 style="font-weight:bold;text-transform:uppercase;font-size:2.6rem;letter-spacing:2px;color:#fff;text-shadow:2px 2px 12px #ff4e50, 0 2px 8px #f9d423;margin-bottom:24px;">Pay to Unlock the Videos</h2>
       <div class="scanpay-card" style="background:rgba(255,255,255,0.97);box-shadow:0 8px 32px #ff4e50, 0 0 32px #ffe066;border-radius:40px;padding:48px 32px;display:flex;flex-direction:column;align-items:center;max-width:520px;width:100%;margin-bottom:32px;position:relative;overflow:hidden;">
