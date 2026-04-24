@@ -490,6 +490,27 @@ app.post('/verify-payment', async (req, res) => {
   }
 });
 
+// Utility endpoint: Fix accessGranted for users who have paid but missing flag
+app.post('/fix-access-granted', async (req, res) => {
+  try {
+    // Find all payments with userId in notes and status 'captured'
+    const payments = await razorpay.payments.all({ from: 0 }); // fetch all payments
+    let updated = 0;
+    for (const payment of payments.items) {
+      if (payment.status === 'captured' && payment.notes && payment.notes.userId) {
+        const user = await User.findById(payment.notes.userId);
+        if (user && !user.accessGranted) {
+          await User.findByIdAndUpdate(payment.notes.userId, { accessGranted: true });
+          updated++;
+        }
+      }
+    }
+    res.json({ success: true, updated });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 app.listen(3000, () => {
   console.log('Payment server running on http://localhost:3000');
 });
