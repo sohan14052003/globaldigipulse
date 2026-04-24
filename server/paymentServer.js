@@ -123,7 +123,9 @@ app.post('/create-razorpay-order', async (req, res) => {
     amount: 1000, // Amount in paise (₹10.00)
     currency: "INR",
     receipt: "order_rcptid_11",
-    notes: { brand: "GLOBAL DIGI PULSE" }
+    notes: { brand: "GLOBAL DIGI PULSE" },
+    name: "GLOBAL DIGI PULSE",
+    description: "Access Program"
   };
   try {
     const order = await razorpay.orders.create(options);
