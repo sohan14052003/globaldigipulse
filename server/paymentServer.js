@@ -61,7 +61,7 @@ if (twilioSid && twilioToken && twilioSid.startsWith('AC')) {
 }
 
 // MongoDB connection
-const mongoUri = process.env.MONGO_URL || 'mongodb://localhost:27017/educateandlearn';
+const mongoUri = process.env.MONGO_URL || 'mongodb://localhost:27017/globaldigipulse';
 
 function connectWithRetry() {
   mongoose.connect(mongoUri)
@@ -249,7 +249,7 @@ app.post('/send-login-thankyou', async (req, res) => {
     from: process.env.EMAIL_USER,
     to: email,
     subject: 'Thank You for Logging In',
-    text: 'Thank you for logging in to Educate And Learn! We appreciate your interest.'
+    text: 'Thank you for logging in to GLOBAL DIGI PULSE! We appreciate your interest.'
   };
 
   try {
@@ -268,7 +268,7 @@ app.post('/send-register-thankyou', async (req, res) => {
     from: process.env.EMAIL_USER,
     to: email,
     subject: 'Thank You for Registering',
-    text: `Thank you for registering in Educate And Learn!\n\nYour credentials:\nUsername: ${username}\nPassword: ${password}\n\nKeep your credentials safe.`
+    text: `Thank you for registering in GLOBAL DIGI PULSE!\n\nYour credentials:\nUsername: ${username}\nPassword: ${password}\n\nKeep your credentials safe.`
   };
 
   try {
