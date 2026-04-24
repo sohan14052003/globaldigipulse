@@ -84,7 +84,7 @@
         fetch("/create-order", {
           method: "POST",
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userId })
+          body: JSON.stringify({ userId, amount: 99900 }) // ₹999 in paise
         })
           .then(res => res.json())
           .then(order => {
@@ -93,7 +93,7 @@
                 key: 'rzp_live_SgVjOOUUHbzBIS', // Razorpay live key
                 amount: order.amount,
                 currency: order.currency,
-                name: 'Educate And Learn Yourself',
+                name: 'GLOBAL DIGI PULSE',
                 description: 'Access Program',
                 order_id: order.id,
                 handler: function (response) {

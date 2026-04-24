@@ -396,17 +396,17 @@ app.post('/reset-username-password', async (req, res) => {
   }
 });
 
-// Create Razorpay order for ₹999, include userId in notes
+// Create Razorpay order for ₹999 or custom amount, include userId in notes
 app.post('/create-order', async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId, amount } = req.body;
     if (!razorpay) {
       console.error('Razorpay not initialized. KeyId:', process.env.RAZORPAY_KEY_ID, 'KeySecret:', process.env.RAZORPAY_KEY_SECRET);
       return res.status(500).json({ error: 'Razorpay not initialized' });
     }
     try {
       const order = await razorpay.orders.create({
-        amount: 99900, // ₹999 in paise
+        amount: typeof amount === 'number' && amount > 0 ? amount : 99900, // Use provided amount (in paise) or default to ₹999
         currency: 'INR',
         payment_capture: 1,
         notes: { purpose: 'Access Program', userId: userId || '' }

@@ -176,6 +176,7 @@
     <header class="header-section">
       <h1 class="main-title">WELCOME TO GLOBAL DIGI PULSE</h1>
       <p class="sub-title"> </p>
+      <button id="payYoutubeBtn" style="margin-top:18px;font-size:1.3rem;font-weight:700;padding:16px 38px;border-radius:32px;background:linear-gradient(90deg,#ff4e50 0%,#ffe066 100%);color:#fff;box-shadow:0 2px 16px #ffe066,0 2px 8px #ff4e50;border:none;cursor:pointer;transition:background 0.3s;">Pay ₹1499 to Unlock YouTube Campaign Videos</button>
     </header>
     <main class="main-content" style="display:flex;flex-direction:row;align-items:flex-start;justify-content:center;">
       <aside class="button-sidebar">
@@ -274,8 +275,97 @@
       var vid = document.getElementById('analyze-data-video');
       vid.pause();
     }
+    // Disable all sidebar buttons and Next button until payment is successful
+    const sidebarBtns = document.querySelectorAll('.button-sidebar .btn-group');
+    const nextBtn = document.getElementById('goToBusinessBtn');
+    sidebarBtns.forEach(btn => btn.setAttribute('disabled', 'disabled'));
+    sidebarBtns.forEach(btn => {
+      btn.style.pointerEvents = 'none';
+      btn.style.opacity = '0.5';
+      btn.style.filter = 'grayscale(0.7)';
+    });
+    if (nextBtn) {
+      nextBtn.setAttribute('disabled', 'disabled');
+      nextBtn.style.pointerEvents = 'none';
+      nextBtn.style.opacity = '0.5';
+      nextBtn.style.filter = 'grayscale(0.7)';
+    }
+
+    // Check localStorage for payment status
+    let campaignPaid = localStorage.getItem('campaignPaid') === 'true';
+    if (campaignPaid) {
+      enableSidebarButtons();
+      enableNextButton();
+    }
+
+    function enableSidebarButtons() {
+      sidebarBtns.forEach(btn => btn.removeAttribute('disabled'));
+      sidebarBtns.forEach(btn => {
+        btn.style.pointerEvents = '';
+        btn.style.opacity = '';
+        btn.style.filter = '';
+      });
+    }
+    function enableNextButton() {
+      if (nextBtn) {
+        nextBtn.removeAttribute('disabled');
+        nextBtn.style.pointerEvents = '';
+        nextBtn.style.opacity = '';
+        nextBtn.style.filter = '';
+      }
+    }
+
     document.getElementById("goToBusinessBtn")?.addEventListener("click", function() {
       window.location.href = "BusinessAccount.html";
+    });
+    document.getElementById("payYoutubeBtn")?.addEventListener("click", function() {
+      const userId = localStorage.getItem('userId');
+      const email = localStorage.getItem('email') || '';
+      const name = localStorage.getItem('name') || '';
+      fetch("/create-order", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, amount: 149900 }) // ₹1499 in paise
+      })
+        .then(res => res.json())
+        .then(order => {
+          if (order && order.id) {
+            const options = {
+              key: 'rzp_live_SgVjOOUUHbzBIS', // Razorpay live key
+              amount: order.amount,
+              currency: order.currency,
+              name: 'GLOBAL DIGI PULSE',
+              description: 'Unlock YouTube Campaign Videos',
+              order_id: order.id,
+              handler: function (response) {
+                // Payment verification logic here if needed
+                alert('Payment successful!');
+                localStorage.setItem('campaignPaid', 'true');
+                enableSidebarButtons();
+                enableNextButton();
+              },
+              prefill: {
+                name: name,
+                email: email
+              },
+              theme: {
+                color: '#ff4e50'
+              },
+              modal: {
+                ondismiss: function() {
+                  // Optionally handle modal close
+                }
+              }
+            };
+            const rzp = new Razorpay(options);
+            rzp.open();
+          } else {
+            alert('Failed to create order.');
+          }
+        })
+        .catch(() => {
+          alert('Server error.');
+        });
     });
     </script>
     <!-- YouTube Campaign Video Popup -->
