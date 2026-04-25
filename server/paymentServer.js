@@ -83,7 +83,10 @@ try {
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     resetToken: { type: String },
-    resetTokenExpiry: { type: Date }
+    resetTokenExpiry: { type: Date },
+    // New flags to persist payment status
+    scanPaid: { type: Boolean, default: false },
+    campaignPaid: { type: Boolean, default: false }
   });
   User = mongoose.models.User || mongoose.model('User', userSchema);
 }
@@ -197,13 +200,27 @@ app.post('/razorpay-webhook', express.json({ type: 'application/json' }), async 
     const event = req.body.event;
     if (event === 'payment.captured') {
       const payment = req.body.payload.payment.entity;
-      // Example: userId or email stored in payment.notes
+      // Example: userId or purpose stored in payment.notes
       const userId = payment.notes && payment.notes.userId;
-      if (userId) {
-        // Grant access to user in MongoDB
-        await User.findByIdAndUpdate(userId, { accessGranted: true });
+      const purpose = payment.notes && payment.notes.purpose;
+      try {
+        if (userId) {
+          if (purpose === 'campaign') {
+            await User.findByIdAndUpdate(userId, { campaignPaid: true });
+            console.log('Marked campaignPaid for user', userId);
+          } else if (purpose === 'scan') {
+            await User.findByIdAndUpdate(userId, { scanPaid: true });
+            console.log('Marked scanPaid for user', userId);
+          } else {
+            // Generic access flag for older payments
+            await User.findByIdAndUpdate(userId, { accessGranted: true });
+            console.log('Marked accessGranted for user', userId);
+          }
+        }
+        // You can also send confirmation email here
+      } catch (err) {
+        console.error('Error updating user payment status:', err);
       }
-      // You can also send confirmation email here
     }
     res.status(200).send('Webhook received');
   } else {
@@ -396,20 +413,26 @@ app.post('/reset-username-password', async (req, res) => {
   }
 });
 
-// Create Razorpay order for ₹999 or custom amount, include userId in notes
+// Create Razorpay order for custom amount, include userId and purpose in notes
 app.post('/create-order', async (req, res) => {
   try {
-    const { userId, amount } = req.body;
+    const { userId, amount, purpose } = req.body;
     if (!razorpay) {
       console.error('Razorpay not initialized. KeyId:', process.env.RAZORPAY_KEY_ID, 'KeySecret:', process.env.RAZORPAY_KEY_SECRET);
       return res.status(500).json({ error: 'Razorpay not initialized' });
     }
+    // Determine purpose: prefer explicit 'purpose', else infer from amount
+    let orderPurpose = 'access';
+    if (purpose) orderPurpose = purpose;
+    else if (amount === 149900) orderPurpose = 'campaign';
+    else if (amount === 99900) orderPurpose = 'scan';
+
     try {
       const order = await razorpay.orders.create({
         amount: typeof amount === 'number' && amount > 0 ? amount : 99900, // Use provided amount (in paise) or default to ₹999
         currency: 'INR',
         payment_capture: 1,
-        notes: { purpose: 'Access Program', userId: userId || '' }
+        notes: { purpose: orderPurpose, userId: userId || '' }
       });
       console.log('Razorpay order created:', order);
       res.json(order);
@@ -508,6 +531,19 @@ app.post('/fix-access-granted', async (req, res) => {
     res.json({ success: true, updated });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Endpoint to query user payment status
+app.get('/user-access-status', async (req, res) => {
+  const userId = req.query.userId;
+  if (!userId) return res.status(400).json({ error: 'userId required' });
+  try {
+    const user = await User.findById(userId).select('scanPaid campaignPaid accessGranted');
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.json({ scanPaid: !!user.scanPaid, campaignPaid: !!user.campaignPaid, accessGranted: !!user.accessGranted });
+  } catch (err) {
+    res.status(500).json({ error: 'Server error', details: err.message });
   }
 });
 

@@ -29,8 +29,8 @@
     <script>
       // Redirect paid users away from ScanAndPay if already paid
       (function() {
-        const accessGranted = localStorage.getItem('accessGranted');
-        if (accessGranted === 'true') {
+        const scanPaid = localStorage.getItem('scanPaid');
+        if (scanPaid === 'true') {
           window.location.href = 'IntroPage.html';
         }
       })();
@@ -76,6 +76,14 @@
       goWelcomeBtn.onclick = function() {
         window.location.href = "BusinessAccount.html";
       };
+      // Disable payment button if already paid
+      const scanPaid = localStorage.getItem('scanPaid') === 'true';
+      const scanPayBtn = document.getElementById('scanPayBtn');
+      if (scanPaid && scanPayBtn) {
+        scanPayBtn.textContent = 'Already Paid';
+        scanPayBtn.disabled = true;
+        scanPayBtn.style.opacity = '0.6';
+      }
       // Razorpay ₹1000 payment button (UPI enforced)
       document.getElementById("payBtn").addEventListener("click", function() {
         const userId = localStorage.getItem('userId');
@@ -84,7 +92,7 @@
         fetch("/create-order", {
           method: "POST",
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ userId, amount: 99900 }) // ₹999 in paise
+          body: JSON.stringify({ userId, amount: 99900, purpose: 'scan' }) // ₹999 in paise
         })
           .then(res => res.json())
           .then(order => {
@@ -111,6 +119,7 @@
                     .then(res => res.json())
                     .then(data => {
                       if (data.success) {
+                        localStorage.setItem('scanPaid', 'true');
                         window.location.href = 'IntroPage.html';
                       } else {
                         alert('Payment verification failed. Please contact support.');

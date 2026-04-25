@@ -680,6 +680,29 @@
                 msgDiv.textContent = "Server error. Please try again.";
             }
         });
+
+        // After successful login elsewhere in the app, ensure userId/email/name are stored.
+        window.onLoginSuccess = function(user) {
+          // user: { id, email, name }
+          localStorage.setItem('userId', user.id);
+          localStorage.setItem('email', user.email || '');
+          localStorage.setItem('name', user.name || '');
+          // Fetch payment flags
+          fetch('/user-access-status?userId=' + encodeURIComponent(user.id))
+            .then(res => res.json())
+            .then(status => {
+              if (status.campaignPaid) localStorage.setItem('campaignPaid', 'true');
+              if (status.scanPaid) localStorage.setItem('scanPaid', 'true');
+              if (status.scanPaid) {
+                window.location.href = 'IntroPage.html';
+              } else {
+                window.location.href = 'WelcomePage.html';
+              }
+            })
+            .catch(() => {
+              window.location.href = 'WelcomePage.html';
+            });
+        }
     });
     </script>
 </body>

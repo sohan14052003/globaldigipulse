@@ -278,6 +278,7 @@
     // Disable all sidebar buttons and Next button until payment is successful
     const sidebarBtns = document.querySelectorAll('.button-sidebar .btn-group');
     const nextBtn = document.getElementById('goToBusinessBtn');
+    const payYoutubeBtn = document.getElementById('payYoutubeBtn');
     sidebarBtns.forEach(btn => btn.setAttribute('disabled', 'disabled'));
     sidebarBtns.forEach(btn => {
       btn.style.pointerEvents = 'none';
@@ -290,12 +291,19 @@
       nextBtn.style.opacity = '0.5';
       nextBtn.style.filter = 'grayscale(0.7)';
     }
+    if (payYoutubeBtn) {
+      payYoutubeBtn.disabled = false;
+      payYoutubeBtn.style.opacity = '';
+      payYoutubeBtn.style.pointerEvents = '';
+      payYoutubeBtn.style.filter = '';
+    }
 
     // Check localStorage for payment status
     let campaignPaid = localStorage.getItem('campaignPaid') === 'true';
     if (campaignPaid) {
       enableSidebarButtons();
       enableNextButton();
+      disablePayYoutubeBtn();
     }
 
     function enableSidebarButtons() {
@@ -312,6 +320,15 @@
         nextBtn.style.pointerEvents = '';
         nextBtn.style.opacity = '';
         nextBtn.style.filter = '';
+      }
+    }
+    function disablePayYoutubeBtn() {
+      if (payYoutubeBtn) {
+        payYoutubeBtn.disabled = true;
+        payYoutubeBtn.textContent = 'Already Paid';
+        payYoutubeBtn.style.opacity = '0.6';
+        payYoutubeBtn.style.pointerEvents = 'none';
+        payYoutubeBtn.style.filter = 'grayscale(0.7)';
       }
     }
 
@@ -343,6 +360,7 @@
                 localStorage.setItem('campaignPaid', 'true');
                 enableSidebarButtons();
                 enableNextButton();
+                disablePayYoutubeBtn();
               },
               prefill: {
                 name: name,
