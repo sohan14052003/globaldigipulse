@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="campaign.css">
     <link rel="icon" type="image/png" href="../images/icon-7797704_640.JPG">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <style>
         body {
             background-color: #f7f7fa;
@@ -285,17 +286,20 @@
       btn.style.opacity = '0.5';
       btn.style.filter = 'grayscale(0.7)';
     });
+    // Remove or comment out the disabling logic for the Next button
+    // const nextBtn = document.getElementById('goToBusinessBtn');
+    // if (nextBtn) {
+    //   nextBtn.setAttribute('disabled', 'disabled');
+    //   nextBtn.style.pointerEvents = 'none';
+    //   nextBtn.style.opacity = '0.5';
+    //   nextBtn.style.filter = 'grayscale(0.7)';
+    // }
+    // Instead, always enable the Next button
     if (nextBtn) {
-      nextBtn.setAttribute('disabled', 'disabled');
-      nextBtn.style.pointerEvents = 'none';
-      nextBtn.style.opacity = '0.5';
-      nextBtn.style.filter = 'grayscale(0.7)';
-    }
-    if (payYoutubeBtn) {
-      payYoutubeBtn.disabled = false;
-      payYoutubeBtn.style.opacity = '';
-      payYoutubeBtn.style.pointerEvents = '';
-      payYoutubeBtn.style.filter = '';
+      nextBtn.removeAttribute('disabled');
+      nextBtn.style.pointerEvents = '';
+      nextBtn.style.opacity = '';
+      nextBtn.style.filter = '';
     }
 
     // Check localStorage for payment status
@@ -304,6 +308,11 @@
       enableSidebarButtons();
       enableNextButton();
       disablePayYoutubeBtn();
+    }
+
+    // If user has already paid for campaign, redirect to BusinessAccount.html
+    if (localStorage.getItem('campaignPaid') === 'true') {
+      window.location.href = 'BusinessAccount.html';
     }
 
     function enableSidebarButtons() {
@@ -333,7 +342,7 @@
     }
 
     document.getElementById("goToBusinessBtn")?.addEventListener("click", function() {
-      window.location.href = "BusinessAccount.html";
+      window.location.href = "ScanAndPay.html";
     });
     document.getElementById("payYoutubeBtn")?.addEventListener("click", function() {
       const userId = localStorage.getItem('userId');
@@ -342,7 +351,7 @@
       fetch("/create-order", {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, amount: 149900 }) // ₹1499 in paise
+        body: JSON.stringify({ userId, amount: 149900, purpose: 'campaign' }) // ₹1499 in paise, purpose added
       })
         .then(res => res.json())
         .then(order => {
@@ -355,12 +364,31 @@
               description: 'Unlock YouTube Campaign Videos',
               order_id: order.id,
               handler: function (response) {
-                // Payment verification logic here if needed
-                alert('Payment successful!');
-                localStorage.setItem('campaignPaid', 'true');
-                enableSidebarButtons();
-                enableNextButton();
-                disablePayYoutubeBtn();
+                // Verify payment on backend before granting access
+                fetch('/verify-payment', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    razorpay_payment_id: response.razorpay_payment_id,
+                    razorpay_order_id: response.razorpay_order_id,
+                    razorpay_signature: response.razorpay_signature,
+                    userId: userId
+                  })
+                })
+                  .then(res => res.json())
+                  .then(data => {
+                    if (data.success) {
+                      localStorage.setItem('campaignPaid', 'true');
+                      enableSidebarButtons();
+                      enableNextButton();
+                      disablePayYoutubeBtn();
+                    } else {
+                      alert('Payment verification failed. Please contact support.');
+                    }
+                  })
+                  .catch(() => {
+                    alert('Server error during payment verification.');
+                  });
               },
               prefill: {
                 name: name,
@@ -382,7 +410,7 @@
           }
         })
         .catch(() => {
-          alert('Server error.');
+          alert('Server error. Please try again or contact support.');
         });
     });
     </script>
