@@ -528,9 +528,9 @@
                             body: JSON.stringify({ email: username })
                         });
                     }
-                    // Redirect based on payment status
+                    // Always redirect to ScanAndPay page after login
                     setTimeout(() => {
-                        window.location.href = "../html/CampainPage.html";
+                        window.location.href = "../html/ScanAndPay.html";
                     }, 600); // slight delay for UX
                 } else {
                     spinner.style.display = "none";

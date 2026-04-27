@@ -148,8 +148,27 @@
             .header-section { padding: 12px !important; }
             h1.main-title { font-size: 1.2rem !important; }
             .main-content { flex-direction: column !important; gap: 12px !important; align-items: center !important; }
-            .button-sidebar { min-width: unset !important; margin-top: 18px !important; gap: 16px !important; align-items: center !important; width: 100vw !important; display: flex !important; flex-direction: column !important; justify-content: center !important; }
-            .btn-group { min-height: 48px; max-width: 98vw; border-radius: 16px; }
+            .button-sidebar {
+                min-width: unset !important;
+                margin-top: 18px !important;
+                gap: 16px !important;
+                align-items: center !important;
+                width: 100vw !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: center !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                text-align: center !important;
+            }
+            .btn-group {
+                min-height: 48px;
+                max-width: 98vw;
+                border-radius: 16px;
+                margin-left: auto !important;
+                margin-right: auto !important;
+                justify-content: center !important;
+            }
         }
         .footer-line {
             font-size: 16px;
@@ -286,20 +305,12 @@
       btn.style.opacity = '0.5';
       btn.style.filter = 'grayscale(0.7)';
     });
-    // Remove or comment out the disabling logic for the Next button
-    // const nextBtn = document.getElementById('goToBusinessBtn');
-    // if (nextBtn) {
-    //   nextBtn.setAttribute('disabled', 'disabled');
-    //   nextBtn.style.pointerEvents = 'none';
-    //   nextBtn.style.opacity = '0.5';
-    //   nextBtn.style.filter = 'grayscale(0.7)';
-    // }
-    // Instead, always enable the Next button
+    // Disable Next button by default
     if (nextBtn) {
-      nextBtn.removeAttribute('disabled');
-      nextBtn.style.pointerEvents = '';
-      nextBtn.style.opacity = '';
-      nextBtn.style.filter = '';
+      nextBtn.setAttribute('disabled', 'disabled');
+      nextBtn.style.pointerEvents = 'none';
+      nextBtn.style.opacity = '0.5';
+      nextBtn.style.filter = 'grayscale(0.7)';
     }
 
     // Check localStorage for payment status
@@ -314,6 +325,28 @@
     if (localStorage.getItem('campaignPaid') === 'true') {
       window.location.href = 'BusinessAccount.html';
     }
+
+    // Enforce backend payment status check on page load
+    (async function() {
+      try {
+        const res = await fetch('/user-access-status', { credentials: 'include' });
+        if (res.ok) {
+          const status = await res.json();
+          if (status.campaignPaid) {
+            localStorage.setItem('campaignPaid', 'true');
+            enableSidebarButtons();
+            enableNextButton();
+            disablePayYoutubeBtn();
+            // Optionally redirect if you want to skip this page
+            // window.location.href = 'BusinessAccount.html';
+          } else {
+            localStorage.removeItem('campaignPaid');
+          }
+        }
+      } catch (e) {
+        // Optionally show error or fallback
+      }
+    })();
 
     function enableSidebarButtons() {
       sidebarBtns.forEach(btn => btn.removeAttribute('disabled'));
@@ -342,7 +375,7 @@
     }
 
     document.getElementById("goToBusinessBtn")?.addEventListener("click", function() {
-      window.location.href = "ScanAndPay.html";
+      window.location.href = "BusinessAccount.html";
     });
     document.getElementById("payYoutubeBtn")?.addEventListener("click", function() {
       const userId = localStorage.getItem('userId');

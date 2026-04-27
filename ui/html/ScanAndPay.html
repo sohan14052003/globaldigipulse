@@ -67,6 +67,24 @@
     <script src="https://unpkg.com/html5-qrcode@2.3.7/minified/html5-qrcode.min.js"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
+      // Enforce backend payment status check on page load
+      (async function() {
+        try {
+          const res = await fetch('/user-access-status', { credentials: 'include' });
+          if (res.ok) {
+            const status = await res.json();
+            if (status.scanPaid) {
+              localStorage.setItem('scanPaid', 'true');
+              window.location.href = 'IntroPage.html';
+              return;
+            } else {
+              localStorage.removeItem('scanPaid');
+            }
+          }
+        } catch (e) {
+          // Optionally show error or fallback
+        }
+      })();
       let scanned = false;
       const goWelcomeBtn = document.createElement('button');
       goWelcomeBtn.className = 'btn';
@@ -78,7 +96,7 @@
       };
       // Disable payment button if already paid
       const scanPaid = localStorage.getItem('scanPaid') === 'true';
-      const scanPayBtn = document.getElementById('scanPayBtn');
+      const scanPayBtn = document.getElementById('payBtn');
       if (scanPaid && scanPayBtn) {
         scanPayBtn.textContent = 'Already Paid';
         scanPayBtn.disabled = true;
