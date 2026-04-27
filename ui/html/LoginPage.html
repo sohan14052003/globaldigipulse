@@ -530,11 +530,7 @@
                     }
                     // Redirect based on payment status
                     setTimeout(() => {
-                        if (data.accessGranted) {
-                            window.location.href = "../html/IntroPage.html";
-                        } else {
-                            window.location.href = "../html/ScanAndPay.html";
-                        }
+                        window.location.href = "../html/CampainPage.html";
                     }, 600); // slight delay for UX
                 } else {
                     spinner.style.display = "none";
@@ -693,14 +689,10 @@
             .then(status => {
               if (status.campaignPaid) localStorage.setItem('campaignPaid', 'true');
               if (status.scanPaid) localStorage.setItem('scanPaid', 'true');
-              if (status.scanPaid) {
-                window.location.href = 'IntroPage.html';
-              } else {
-                window.location.href = 'WelcomePage.html';
-              }
+              window.location.href = 'CampainPage.html';
             })
             .catch(() => {
-              window.location.href = 'WelcomePage.html';
+              window.location.href = 'CampainPage.html';
             });
         }
     });
