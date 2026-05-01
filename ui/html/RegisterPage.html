@@ -123,7 +123,7 @@
             const res = await fetch("https://globaldigipulse.onrender.com/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ fullname, username, email, password })
+                body: JSON.stringify({ username, email, password })
             });
             const data = await res.json();
             if (data.success) {

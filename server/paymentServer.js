@@ -298,26 +298,36 @@ app.post('/send-register-thankyou', async (req, res) => {
 
 // Registration endpoint
 app.post('/register', async (req, res) => {
-  const { username, email, password } = req.body;
+  let { username, email, password } = req.body;
   if (!username || !email || !password) return res.status(400).json({ success: false, message: 'Username, email, and password required.' });
 
+  // Trim and lowercase username/email for duplicate check and saving
+  username = username.trim().toLowerCase();
+  email = email.trim().toLowerCase();
+
   try {
-    // Check if user exists by username or email
-    const existing = await User.findOne({ $or: [{ username }, { email }] });
+    // Check if user exists by username or email (case-insensitive)
+    const existing = await User.findOne({
+      $or: [
+        { username: { $regex: `^${username}$`, $options: 'i' } },
+        { email: { $regex: `^${email}$`, $options: 'i' } }
+      ]
+    });
     if (existing) {
       return res.json({ success: false, message: 'User or email already exists.' });
     }
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
-    // Store user
+    // Store user (save username/email as trimmed/lowercase)
     await User.create({ username, email, password: hashedPassword });
-    // Send credentials email
-    await fetch('http://localhost:3000/send-register-thankyou', {
+    // Respond to client immediately
+    res.json({ success: true });
+    // Send credentials email in background (non-blocking)
+    fetch('http://localhost:3000/send-register-thankyou', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, username, password })
-    });
-    res.json({ success: true });
+    }).catch(err => console.error('Email send error:', err));
   } catch (error) {
     res.status(500).json({ success: false, message: 'Registration failed.' });
   }
