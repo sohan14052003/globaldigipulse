@@ -323,7 +323,10 @@ app.post('/register', async (req, res) => {
     // Respond to client immediately
     res.json({ success: true });
     // Send credentials email in background (non-blocking)
-    fetch('http://localhost:3000/send-register-thankyou', {
+    const emailEndpoint = process.env.NODE_ENV === 'production'
+      ? 'https://globaldigipulse.onrender.com/send-register-thankyou'
+      : 'http://localhost:3000/send-register-thankyou';
+    fetch(emailEndpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, username, password })
