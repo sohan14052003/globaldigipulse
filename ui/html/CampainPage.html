@@ -188,10 +188,38 @@
             justify-content: center;
             align-items: center;
         }
+        .creative-bg {
+          position: fixed;
+          top: 0; left: 0; width: 100vw; height: 100vh;
+          z-index: 0;
+          pointer-events: none;
+          background: linear-gradient(120deg, #2e9ad0 0%, #ffe066 40%, #ff4e50 80%, #6dd5ed 100%);
+          background-size: 200% 200%;
+          animation: bgMove 12s ease-in-out infinite;
+          opacity: 0.93;
+          overflow: hidden;
+        }
+        @keyframes bgMove {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .creative-bg::after {
+          content: '';
+          position: absolute;
+          left: 0; top: 0; width: 100vw; height: 100vh;
+          background: url('data:image/svg+xml;utf8,<svg width="100%25" height="100%25" viewBox="0 0 1440 900" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0 700 Q360 600 720 700 T1440 700 V900 H0 Z" fill="%23fff" fill-opacity="0.08"/><ellipse cx="1100" cy="200" rx="320" ry="120" fill="%23ffe066" fill-opacity="0.13"/><ellipse cx="400" cy="150" rx="260" ry="90" fill="%232e9ad0" fill-opacity="0.10"/><ellipse cx="900" cy="700" rx="200" ry="80" fill="%23ff4e50" fill-opacity="0.10"/></svg>');
+          background-size: cover;
+          background-repeat: no-repeat;
+          opacity: 0.9;
+          pointer-events: none;
+          z-index: 1;
+        }
+        body > .gradient-overlay { display: none !important; }
     </style>
 </head>
 <body>
-  <div class="gradient-overlay" style="position:absolute;top:0;left:0;width:100vw;height:100vh;background:linear-gradient(135deg,#f7f7fa 0%,#2e9ad0 100%);opacity:0.85;z-index:0;"></div>
+  <div class="creative-bg"></div>
   <div class="wrapper" style="position:relative;z-index:1;">
     <header class="header-section">
       <h1 class="main-title">WELCOME TO GLOBAL DIGI PULSE</h1>
@@ -446,6 +474,31 @@
           alert('Server error. Please try again or contact support.');
         });
     });
+    // Payment logic for persistent access control
+function checkPaymentStatus() {
+    const paymentStatus = localStorage.getItem('paymentStatus');
+    const paymentSection = document.getElementById('payment-section');
+    // Hide payment section if already paid
+    if (paymentStatus === '999' || paymentStatus === '1499') {
+        if (paymentSection) paymentSection.style.display = 'none';
+        // Enable features/buttons based on tier
+        if (paymentStatus === '1499') {
+            document.body.classList.add('premium');
+            // Enable all campaign buttons
+            document.querySelectorAll('.campaign-btn').forEach(btn => btn.disabled = false);
+        } else {
+            document.body.classList.add('basic');
+            // Disable advanced campaign buttons
+            document.querySelectorAll('.premium-only').forEach(btn => btn.disabled = true);
+        }
+    } else {
+        if (paymentSection) paymentSection.style.display = '';
+        // Restrict all campaign features
+        document.querySelectorAll('.campaign-btn').forEach(btn => btn.disabled = true);
+        document.body.classList.add('no-access');
+    }
+}
+document.addEventListener('DOMContentLoaded', checkPaymentStatus);
     </script>
     <!-- YouTube Campaign Video Popup -->
     <div id="youtube-campaign-popup" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.85);z-index:1000;align-items:center;justify-content:center;">
