@@ -53,7 +53,8 @@
             .login-box {
                 margin-left: 0 !important;
                 margin-right: 0 !important;
-                margin-top: 120px !important;
+                margin-top: 140px !important; /* Increased from 90px to 140px for more spacing */
+                order: 1;
             }
             .login-container h1 {
                 font-size: 1.5rem !important;
@@ -338,7 +339,8 @@
             .login-box {
                 margin-left: 0 !important;
                 margin-right: 0 !important;
-                margin-top: 170px !important;
+                margin-top: 140px !important; /* Increased from 90px to 140px for more spacing */
+                order: 1;
             }
             .login-container h1 {
                 font-size: 1.5rem !important;
@@ -520,6 +522,21 @@
                     // Store userId and payment status in localStorage
                     if (data.userId) localStorage.setItem('userId', data.userId);
                     localStorage.setItem('accessGranted', data.accessGranted ? 'true' : 'false');
+                    // Fetch and sync payment status from backend after login
+                    if (data.userId) {
+                        try {
+                            const statusRes = await fetch(`/user-access-status?userId=${encodeURIComponent(data.userId)}`);
+                            if (statusRes.ok) {
+                                const status = await statusRes.json();
+                                if (typeof status.scanPaid !== 'undefined') {
+                                    localStorage.setItem('scanPaid', status.scanPaid ? 'true' : 'false');
+                                }
+                                if (typeof status.campaignPaid !== 'undefined') {
+                                    localStorage.setItem('campaignPaid', status.campaignPaid ? 'true' : 'false');
+                                }
+                            }
+                        } catch (e) { /* ignore sync error */ }
+                    }
                     // If user entered an email, send thank you message
                     if (username.includes("@")) {
                         fetch("https://globaldigipulse.onrender.com/send-login-thankyou", {
