@@ -53,7 +53,7 @@
             .login-box {
                 margin-left: 0 !important;
                 margin-right: 0 !important;
-                margin-top: 140px !important; /* Increased from 90px to 140px for more spacing */
+                margin-top: 30px !important; /* Moved up from 60px to 30px */
                 order: 1;
             }
             .login-container h1 {
@@ -339,7 +339,7 @@
             .login-box {
                 margin-left: 0 !important;
                 margin-right: 0 !important;
-                margin-top: 140px !important; /* Increased from 90px to 140px for more spacing */
+                margin-top: 30px !important; /* Moved up from 60px to 30px */
                 order: 1;
             }
             .login-container h1 {
@@ -417,6 +417,25 @@
             color: #888;
             margin-top: 10px;
         }
+        @media (max-width: 600px) {
+            .mobile-login-desc {
+                display: block;
+                margin: 108px auto 0 auto; /* Keep description spacing unchanged */
+                max-width: 340px;
+                background: #f7f7fa;
+                color: #232946;
+                font-size: 1rem;
+                border-radius: 10px;
+                box-shadow: 0 2px 8px #2e9ad033;
+                padding: 12px 16px;
+                text-align: center;
+            }
+        }
+        @media (min-width: 601px) {
+            .mobile-login-desc {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body class="login-page-bg">
@@ -457,6 +476,10 @@
                     <a href="/RegisterPage.html" style="color:#2e9ad0;font-weight:bold;">Register here (if button does not work)</a>
                 </div>
             </noscript>
+        </div>
+        <!-- Mobile-only small description below login box -->
+        <div class="mobile-login-desc">
+            <span>Learn how to sell your products online with our complete social media marketing video course. Get instant access after login!</span>
         </div>
         <!-- Loading spinner -->
         <div id="loadingSpinner" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(255,255,255,0.7);z-index:999;justify-content:center;align-items:center;">
